@@ -1,0 +1,14 @@
+{
+    "server": {
+        "port": 3000,
+        "cors": {
+            "urls": [
+                "http://loclhos:5000"
+            ]
+        }
+    },
+    "database": {
+        "connectionString": "mongodb://127.0.0.1:27017",
+        "databaseName": "bookshelves-api"
+    }
+}
