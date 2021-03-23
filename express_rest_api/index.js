@@ -13,7 +13,7 @@ app.use(cors({
     origin: corsConfig.urls
 })); 
 
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(cookieParser());
 
 api.connect('/api/v1', app)
@@ -26,7 +26,7 @@ function appListen() {
 
 db.connect(database.connectionString, database.databaseName)
 .then(() => console.log('Successfully connected to database'))
-.catch(err => console.log('Error connecting to database.'))
+.catch(err => console.log('Error connecting to database'))
 .then(appListen)
-.then(() => console.log(`Server listen on port :${port}`))
+.then(() => console.log(`Server listen on port: ${port}`))
 .catch(err => console.log(`Server error: ${err.message}`));
