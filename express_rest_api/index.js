@@ -6,6 +6,7 @@ const cors = require('cors');
 const { server: { port , cors: corsConfig}, database} = require('./config');
 const api = require('./api');
 const db = require('./db')
+const errorHandler =  require('./global-error-handler');
 
 const app = express();
 
@@ -17,6 +18,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 api.connect('/api/v1', app)
+
+app.use(errorHandler)
 
 function appListen() {
     return new Promise((resolve, reject) => {

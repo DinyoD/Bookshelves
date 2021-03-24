@@ -10,5 +10,10 @@
     "database": {
         "connectionString": "mongodb://localhost:27017",
         "databaseName": "bookshelves-api"
+    },
+    "const": {
+        "saltRounds": 10,
+        "secret": "asf4ytcwrg5y3rg",
+        "cookieName": "User-session"
     }
 }

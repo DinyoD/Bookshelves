@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { const: { saltRounds } } = require('../config');
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -22,5 +23,23 @@ const userSchema = new mongoose.Schema({
         ref: 'Book'
     }]
 })
+
+userSchema.pre('save', function (next){
+    let user = this;
+    if (!user.isModified('password')) return next();
+
+    bcrypt.genSalt(saltRounds, (err, salt) => {
+
+        if (err) { next(err); }
+
+        bcrypt.hash(this.password, salt, (err, hash) => {
+
+            if (err) { next(err); }
+
+            this.password = hash;
+            next();
+        });
+    })
+});
 
 module.exports = mongoose.model('User', userSchema);

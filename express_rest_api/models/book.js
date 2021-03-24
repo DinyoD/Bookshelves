@@ -15,8 +15,8 @@ const bookSchema = mongoose.Schema({
     description: {
         type: String
     },
-    cover: {
-        type: Image
+    coverUrl: {
+        type: String
     },
     author: {
         type: mongoose.Types.ObjectId,
