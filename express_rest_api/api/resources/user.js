@@ -3,17 +3,17 @@ const { Router } = require('express');
 const userModel = require('../../models/user');
 const controllerFactory = require('../controllers/controller-factory')
 
-const userController = controllerFactory(userModel);
+const usersController = controllerFactory(userModel);
 
 const router = Router();
 
 router.route('/')
-    .get(userController.getAll)
-    .post(userController.createOne);
+    .get(usersController.getAll)
+    .post(usersController.createOne);
 
 router.route('/:id')
-    .get(userController.getOne)
-    .put(userController.updateOne)
-    .delete(userController.deldeteOne);
+    .get(usersController.getOne)
+    .put(usersController.updateOne)
+    .delete(usersController.deleteOne);
 
 module.exports = router;

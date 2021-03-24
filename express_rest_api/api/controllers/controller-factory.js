@@ -28,7 +28,7 @@ module.exports = function(model){
             .catch(next);
     }
 
-    function deldeteOne(req, res, next){
+    function deleteOne(req, res, next){
         const id = req.params.id;
 
         model.findByIdAndRemove(id)
@@ -41,6 +41,6 @@ module.exports = function(model){
         updateOne,
         getOne,
         getAll,
-        deldeteOne
+        deleteOne
     }
 }
