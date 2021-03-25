@@ -17,7 +17,7 @@ app.use(cors({
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(auth());
+app.use(auth);
 
 api.connect('/api/v1', app);
 

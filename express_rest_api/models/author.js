@@ -9,7 +9,7 @@ const authorSchema = new mongoose.Schema({
         type: String
     },
     yearOfBirth:{
-        type: Date,
+        type: Number,
     }
 });
 

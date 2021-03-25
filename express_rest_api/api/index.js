@@ -13,7 +13,7 @@ const connect = function(path, app){
     router.use('/reviews', reviewsRouter);
     router.use('/authors', authorsRouter)
 
-    app.use(path, router)
+    app.use(path, router);
 }
 
 module.exports = {
