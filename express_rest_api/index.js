@@ -5,7 +5,8 @@ const cors = require('cors');
 
 const { server: { port , cors: corsConfig}, database} = require('./config');
 const api = require('./api');
-const db = require('./db')
+const db = require('./db');
+const auth = require('./api/middlewares/auth');
 const errorHandler =  require('./global-error-handler');
 
 const app = express();
@@ -16,10 +17,11 @@ app.use(cors({
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(auth());
 
-api.connect('/api/v1', app)
+api.connect('/api/v1', app);
 
-app.use(errorHandler)
+app.use(errorHandler);
 
 function appListen() {
     return new Promise((resolve, reject) => {
