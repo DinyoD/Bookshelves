@@ -1,11 +1,12 @@
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Body from './components/Body';
 
 function App() {
   return (
     <div className="container">
         <Header />
-        <h2>Bookshelves Home Page</h2>
+        <Body pageName='Bookshelves'/>
         <br/>
         <Footer />
     </div>

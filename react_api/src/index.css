@@ -1,8 +1,20 @@
+.container{
+  padding: 10px;
+}
 .header{
-  color: green;
-  background-color: lightgreen;
+  text-align: center;
+  padding: 20px;
+  color: grey;
+  background-color: gainsboro;
+}
+.body{
+ display: flex;
+ justify-content: center;
 }
 .footer{
-  color: lightgreen;
-  background-color: black;
+  text-align: end;
+  padding: 20px;
+  color: gainsboro;
+  background-color: grey;
+
 }

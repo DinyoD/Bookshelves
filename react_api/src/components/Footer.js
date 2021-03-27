@@ -1,6 +1,6 @@
 function Footer(){
     return(
-        <footer className='footer'>This is from Footer</footer>
+        <footer className='footer'>Bookshelves 2021 &copy;</footer>
     )
 }
 
