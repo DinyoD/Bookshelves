@@ -4,15 +4,8 @@ const userModel = require('../../models/user');
 const controllerFactory = require('../controllers/controller-factory')
 
 const usersController = controllerFactory(userModel);
-const authController = require('../controllers/authController')
 
 const router = Router();
-
-router.route('/register')
-    .post(authController.register);
-
-router.route('/login')
-    .post(authController.login)
 
 router.route('/')
     .get(usersController.getAll)

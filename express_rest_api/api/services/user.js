@@ -1,4 +1,4 @@
-const userModel = require('../../models/user');
+const User = require('../../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { const: { secret} } = require('../../config')
@@ -13,11 +13,10 @@ const register = async ({username, email, password}) => {
             return {error: 'Email is already in use!'}
         }
 
-        const user = await userModel.create({ username, email, password });
-        console.log(user);
+        const user = new User({ username, email, password });
         const newUser = await user.save();
+
         const token = jwt.sign({ _id: newUser._id, username: newUser.username }, secret);
-        console.log(token);
         return token;
 
     } catch (err) {
@@ -34,7 +33,10 @@ const login = async ({username, password}) => {
             return {error: 'User not found!'}
         }
 
-        await bcrypt.compare(password, user.password); 
+        let match = await bcrypt.compare(password, user.password); 
+        if (!match) {
+            return {error: 'Wrong password!'}
+        }
         let token = jwt.sign({_id: user._id, username}, secret);
         return token;
 

@@ -2,15 +2,19 @@ module.exports = function(model){
 
     function createOne(req, res, next){
         model.create(req.body)
-            .then( doc => { res.status(204).send(doc) })
+            .then( doc => { 
+                res.status(201).send(doc);
+            })
             .catch(next)
     }
 
     function updateOne(req, res, next) {
         const id = req.params.id;
 
-        model.findByIdAndUpdate(id, req.body)
-            .then( doc => res.send(doc))
+        model.findByIdAndUpdate(id, req.body, {new: true})
+            .then( doc => {
+                res.send(doc);
+            })
             .catch(next);
     }
 

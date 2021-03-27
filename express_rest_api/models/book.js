@@ -5,7 +5,7 @@ const bookSchema = mongoose.Schema({
         type: String,
         require: true
     },
-    genre:[{
+    genres:[{
         type: String,
         require: true
     }],
@@ -28,3 +28,5 @@ const bookSchema = mongoose.Schema({
         ref: 'Review'
     }]
 })
+
+module.exports = mongoose.model('Book', bookSchema);
