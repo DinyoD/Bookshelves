@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
 
+$color-primary: linen;
+$color-secondary: olivedrab;
+
+
+
 *{
   box-sizing: border-box;
   margin: 0;
@@ -8,7 +13,7 @@
 
 body{
   font-family:'Comfortaa', sans-serif;
-  background-color: linen;
+  background-color: $color-primary;
 }
 
 .container{
@@ -16,10 +21,29 @@ body{
 }
 
 .header{
+  display: flex;
+  justify-content: space-between;
   text-align: center;
   padding: 20px;
-  color: linen;
-  background-color: olivedrab;
+  color: $color-primary;
+  background-color: $color-secondary;
+}
+.header-nav{
+  display: flex;
+  justify-content: space-between;
+  min-width: 30%;
+  .header-nav-link{
+    text-decoration: none;
+    color: $color-primary;
+  }
+  .active{
+    font-size: 17px;
+  }
+}
+
+.body-container{
+  min-width: 100%;
+  min-height: 600px;
 }
 
 .body{
@@ -29,7 +53,7 @@ body{
   justify-content: center;
 
     .body-title{
-      color: olivedrab;
+      color: $color-secondary;
       text-align: center;
       margin-top: 20px;
     }
@@ -42,14 +66,14 @@ body{
 .footer{
   text-align: end;
   padding: 20px;
-  color: linen;
-  background-color: olivedrab;
+  color: $color-primary;
+  background-color: $color-secondary;
 }
 
 .btn{
   display: inline-block;
-  background:  linen;
-  color: olivedrab;
+  color: $color-secondary;
+  background-color:  $color-primary;
   border: none;
   padding: 10px 20px;
   margin: 5px;

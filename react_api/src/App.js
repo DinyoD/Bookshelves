@@ -1,13 +1,13 @@
 import Header from './components/Header';
+import AppRouter from './AppRouter';
 import Footer from './components/Footer';
-import Body from './components/Body';
+
 
 function App() {
   return (
     <div className="container">
-        <Header />
-        <Body pageName='Bookshelves'/>
-        <br/>
+        <Header />       
+        <AppRouter/>
         <Footer />
     </div>
   );
