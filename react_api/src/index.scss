@@ -82,3 +82,29 @@ body{
   font-size: 16px;
   font-family: inherit;
 }
+.form-container{
+  margin-left: auto;
+  padding: 50px;
+  width: 550px;
+
+  .form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 440px;
+  }
+  .form-control{
+    display: flex;
+    flex-direction: column;
+  }
+  .form-btn{
+    color: $color-primary;
+    background-color: $color-secondary;
+  }
+  .form-input{
+    margin: 3px;
+    padding-left: 3px;
+    min-height: 50px;
+    border-radius: 5px;
+  }
+}

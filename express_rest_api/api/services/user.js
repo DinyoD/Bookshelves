@@ -10,7 +10,7 @@ const register = async ({username, email, password}) => {
         let sameEmailUser = await User.findOne({email: email});
 
         if (sameEmailUser) {
-            return {error: 'Email is already in use!'}
+            throw {error: 'Email is already in use!'}
         }
 
         const user = new User({ username, email, password });
@@ -20,7 +20,7 @@ const register = async ({username, email, password}) => {
         return token;
 
     } catch (err) {
-        return {error: err.message};
+        throw {error: err.error};
     }
 }
 

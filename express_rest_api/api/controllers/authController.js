@@ -4,6 +4,7 @@ const usersService = require('../services/user');
 const { const: { cookieName} } = require('../../config')
 
 const register = (req, res, next) => {
+    console.log(req.body);
     let { username, email, password, confirmPassword } = req.body;
     let correctInputs = username && email && isEmail(email) && password && 
     password.length > 5 && isAlphanumeric(password) && password == confirmPassword;
