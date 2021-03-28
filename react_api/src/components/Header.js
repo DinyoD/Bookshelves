@@ -1,6 +1,10 @@
+import Button from './Button';
+
 function Header(){
     return (
-        <header className='header'>This is Header</header>
+        <header className='header'>
+            <Button text='Add' color='linen'/>
+        </header>
     )
 }
 
