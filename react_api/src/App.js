@@ -1,6 +1,6 @@
-import Header from './components/Header';
-import AppRouter from './AppRouter';
-import Footer from './components/Footer';
+import Header from './components/Header/Header';
+import AppRouter from './components/AppRouter/AppRouter';
+import Footer from './components/Footer/Footer';
 
 
 function App() {

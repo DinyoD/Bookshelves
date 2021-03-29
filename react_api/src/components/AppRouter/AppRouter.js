@@ -1,8 +1,8 @@
 import { Route} from 'react-router-dom';
 
-import Home from './components/Home';
-import Register from './components/Register';
-import Login from './components/Login';
+import Home from '../Home/Home';
+import Register from '../AuthForms/Register';
+import Login from '../AuthForms/Login';
 
 const AppRouter = () => (
     <div className='body-container'>

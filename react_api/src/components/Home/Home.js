@@ -1,4 +1,4 @@
-import Button from './Button';
+import Button from '../Shared/Button';
 
 const  Home = ({pageName}) => (
         <div className='body'>

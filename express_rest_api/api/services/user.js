@@ -30,18 +30,18 @@ const login = async ({username, password}) => {
         const user = await User.findOne({username: username});
 
         if (!user) {
-            return {error: 'User not found!'}
+            throw {error: 'User not found!'}
         }
 
         let match = await bcrypt.compare(password, user.password); 
         if (!match) {
-            return {error: 'Wrong password!'}
+            throw {error: 'Wrong password!'}
         }
         let token = jwt.sign({_id: user._id, username}, secret);
         return token;
 
     } catch (err) {
-        return {error: err.message};
+        throw {error: err.error};
     }
 
 

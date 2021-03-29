@@ -1,53 +1,29 @@
-import { useState, useEffect } from 'react';
 
-const serverUrl = 'http://localhost:5000/api/v1/auth/register';
+import authService from '../../services/authService';
 
-const Register = () => {
+const Register = ({history}) => {
 
-    const [user, setUser] = useState({
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-    });
 
     const  submitHandler = (e) => {
         e.preventDefault();
-        setUser({
+        let user = {
             username: e.target.username.value,
             email: e.target.email.value,
             password: e.target.password.value,
             confirmPassword: e.target.confirmPassword.value
-        })
+        };
+
+        //TODO validate user
         
+        authService.login(user)
+        .then(() => history.push('/home'));
+
         e.target.username.value ='';
         e.target.email.value ='';
         e.target.password.value ='';
         e.target.confirmPassword.value ='';
+
     }
-    
-    useEffect( () => {
-        const register = async () => {
-            await fetchData(user);
-
-        };
-        
-        register();
-    },[user])
-
-    const fetchData = async(user) => {
-        const res = await fetch(
-            serverUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'                       
-                },
-                body: JSON.stringify(user)
-            }
-        );
-        return await res.json()
-    };
-
 
 
     return (
