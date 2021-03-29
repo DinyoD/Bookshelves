@@ -17,28 +17,31 @@ const register = async ({username, email, password}) => {
         const newUser = await user.save();
 
         const token = jwt.sign({ _id: newUser._id, username: newUser.username }, secret);
-        return token;
+        return {token, newUser};
 
     } catch (err) {
         throw {error: err.error};
     }
 }
 
-const login = async ({username, password}) => {
+const login = async ({email, password}) => {
 
     try {
-        const user = await User.findOne({username: username});
+        let user = await User.findOne({email: email});
 
         if (!user) {
             throw {error: 'User not found!'}
         }
 
-        let match = await bcrypt.compare(password, user.password); 
+        let match = await bcrypt.compare(password, user.password);
+
         if (!match) {
             throw {error: 'Wrong password!'}
         }
-        let token = jwt.sign({_id: user._id, username}, secret);
-        return token;
+        
+        let token = jwt.sign({_id: user._id, username: user.username}, secret);
+
+        return {token, user}; 
 
     } catch (err) {
         throw {error: err.error};

@@ -4,7 +4,7 @@ const usersService = require('../services/user');
 const { const: { cookieName} } = require('../../config')
 
 const register = (req, res, next) => {
-
+    console.log(req.body);
     let { username, email, password, confirmPassword } = req.body;
     let correctInputs = username && email && isEmail(email) && password && 
     password.length > 5 && isAlphanumeric(password) && password == confirmPassword;
@@ -14,22 +14,21 @@ const register = (req, res, next) => {
     }
 
     usersService.register({username, email, password})
-        .then(token => {
-            console.log(`token - ${token}`);
-            res.cookie(cookieName, token);
-            res.status(201).send({token})
+        .then(data => {
+            res.cookie(cookieName, data.token);
+            res.status(201).send(data.newUser)
         })
         .catch(next)
 }
 
 const login = (req, res, next) => {
-    let { username, password } = req.body;
+    console.log(req.body);
+    let { email, password } = req.body;
 
-    usersService.login({username, password})
-        .then(token => {
-            console.log(`token - ${token}`);
-            res.cookie(cookieName, token);
-            res.send({token})
+    usersService.login({email, password})
+        .then(data => {
+            res.cookie(cookieName, data.token);
+            res.send(data.user)
         })
         .catch(next)
 

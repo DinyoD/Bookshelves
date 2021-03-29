@@ -15,8 +15,13 @@ const Register = ({history}) => {
 
         //TODO validate user
         
-        authService.login(user)
-        .then(() => history.push('/home'));
+        authService.register(user)
+        .then((newUser) => {
+            localStorage.setItem('username', newUser.username)
+            localStorage.setItem('id', newUser._id)
+            history.push('/home');
+        })
+        .catch();
 
         e.target.username.value ='';
         e.target.email.value ='';
@@ -42,7 +47,7 @@ const Register = ({history}) => {
 
                 <div className='form-control'>
                     <label htmlFor='password'>Password:</label>
-                    <input className='form-input' type="text" id='password' name='password' placeholder='At least 5 symbols. Require alfabet and digit...'/>
+                    <input className='form-input' type="text" id='password' name='password' placeholder='At least 5 symbols...'/>
                 </div>
 
                 <div className='form-control'>

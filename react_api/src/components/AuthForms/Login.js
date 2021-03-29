@@ -5,16 +5,22 @@ const Login = ({ history }) => {
     const  submitHandler = (e) => {
         e.preventDefault();
         let user = {
-            username: e.target.username.value,
+            email: e.target.email.value,
             password: e.target.password.value,
         };
 
         //TODO validate user
         
         authService.login(user)
-        .then(() => history.push('/home'));
+        .then((logedUser) => {
+            console.log(logedUser);
+            localStorage.setItem('username', logedUser.username)
+            localStorage.setItem('id', logedUser._id)
+            history.push('/home')
+        })
+        .catch();
 
-        e.target.username.value ='';
+        e.target.email.value ='';
         e.target.password.value ='';
 
 
@@ -25,13 +31,13 @@ const Login = ({ history }) => {
             <form className='form form-register' onSubmit={submitHandler}>
                 {/* <div>{error.error ? error.error : ''}</div> */}
                 <div className='form-control'>
-                    <label htmlFor='username'>Name:</label>
-                    <input className='form-input' type="text" id='username' name='username' placeholder='Type your name...'/>
+                    <label htmlFor='email'>Email:</label>
+                    <input className='form-input' type="text" id='email' name='email' placeholder='enter your email...'/>
                 </div>
 
                 <div className='form-control'>
                     <label htmlFor='password'>Password:</label>
-                    <input className='form-input' type="text" id='password' name='password' placeholder='Type your password...'/>
+                    <input className='form-input' type="text" id='password' name='password' placeholder='enter your password...'/>
                 </div>
 
                 <input type="submit" className='btn form-btn' value='Submit'/>
