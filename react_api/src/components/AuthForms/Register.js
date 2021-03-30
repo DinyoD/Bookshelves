@@ -1,9 +1,9 @@
-
+import { useHistory } from 'react-router-dom';
 import authService from '../../services/authService';
 
-const Register = ({history}) => {
+const Register = ({loginUser}) => {
 
-
+    const history  = useHistory(); 
     const  submitHandler = (e) => {
         e.preventDefault();
         let user = {
@@ -13,12 +13,14 @@ const Register = ({history}) => {
             confirmPassword: e.target.confirmPassword.value
         };
 
-        //TODO validate user
+
+       //TODO validate user
         
         authService.register(user)
         .then((newUser) => {
             localStorage.setItem('username', newUser.username)
             localStorage.setItem('id', newUser._id)
+            loginUser(newUser);
             history.push('/home');
         })
         .catch();
