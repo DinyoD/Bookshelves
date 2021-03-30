@@ -24,21 +24,21 @@ body{
   display: flex;
   justify-content: space-between;
   text-align: center;
-  padding: 20px;
+  padding: 20px 40px;
   color: $color-primary;
   background-color: $color-secondary;
 }
 .header-nav{
   display: flex;
   justify-content: space-between;
-  min-width: 30%;
+  min-width: 25%;
   .header-nav-link{
     text-decoration: none;
     color: $color-primary;
+    font-size: 18px;
+    padding-top: 3px;
   }
-  .active{
-    font-size: 17px;
-  }
+
 }
 
 .body-container{
