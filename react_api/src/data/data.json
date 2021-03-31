@@ -1,0 +1,28 @@
+{
+    "genres": [
+        "-- select genre --",
+        "Fantasy",
+        "Adventure",
+        "Romance",
+        "Dystopian",
+        "Mystery",
+        "Horror",
+        "Thriller",
+        "Paranormal",
+        "Historical fiction",
+        "Science Fiction",
+        "Memoir", 
+        "Cooking",
+        "Art",
+        "Health",
+        "History",
+        "Travel",
+        "Guide / How-to",
+        "Humor",
+        "Children’s"
+    ],
+    "language": [
+        "Български",
+        "English"
+    ]
+}

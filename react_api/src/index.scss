@@ -84,7 +84,7 @@ body{
 }
 .form-container{
   margin-left: auto;
-  padding: 50px;
+  padding: 20px;
   width: 550px;
 
   .form{
@@ -103,9 +103,21 @@ body{
     background-color: $color-secondary;
   }
   .form-input{
-    margin: 3px;
+    margin: 15px 3px;
     padding-left: 3px;
     min-height: 50px;
     border-radius: 5px;
+  }
+  .form-input-book{
+    margin: 3px;
+    padding-left: 3px;
+    min-height: 35px;
+    border-radius: 5px;
+  }
+  .form-option{
+    padding: 10px;
+  }
+  .form-textarea-book{
+    min-height: 100px;
   }
 }

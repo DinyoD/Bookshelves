@@ -21,7 +21,7 @@ const Login = ({ loginUser }) => {
 
             loginUser(logedUser);
 
-            history.push('/home')
+            history.push('/books')
         })
         .catch();
 

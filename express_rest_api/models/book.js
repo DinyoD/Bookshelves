@@ -5,15 +5,19 @@ const bookSchema = mongoose.Schema({
         type: String,
         require: true
     },
-    genres:[{
+    genre:{
         type: String,
         require: true
-    }],
+    },
     year: {
         type: Number,
     },
     description: {
         type: String
+    },
+    language:{
+        type: String,
+        require: true
     },
     coverUrl: {
         type: String

@@ -1,7 +1,7 @@
 import {useState } from 'react';
 
 import Header from './components/Header/Header';
-import AppRouter from './components/AppRouter/AppRouter';
+import Body from './components/Body/Body';
 import Footer from './components/Footer/Footer';
 
 
@@ -20,7 +20,7 @@ function App() {
   return (
     <div className="container">
         <Header user={user} logoutUser={loginUser}/>       
-        <AppRouter user={user} loginUser={loginUser} logoutUser={logoutUser}/>
+        <Body user={user} loginUser={loginUser} logoutUser={logoutUser}/>
         <Footer />
     </div>
   );

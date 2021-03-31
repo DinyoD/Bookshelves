@@ -10,7 +10,7 @@ const Header = ({ user, logoutUser }) => {
             <div className='header-nav'>
                 <Link className='header-nav-link' to='/home'>Home</Link>
                 {user.id 
-                    ? <Link className='header-nav-link' to='#'>{user.username}</Link>
+                    ? <Link className='header-nav-link' to='/books'>{user.username}</Link>
                     : <Link className='header-nav-link' to='/register'>Register</Link>}
                 {user.id 
                     ? <Link className='header-nav-link' to='#' onClick={logoutUser}>Logout</Link> 

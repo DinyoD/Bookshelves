@@ -21,7 +21,7 @@ const Register = ({loginUser}) => {
             localStorage.setItem('username', newUser.username)
             localStorage.setItem('id', newUser._id)
             loginUser(newUser);
-            history.push('/home');
+            history.push('/books');
         })
         .catch();
 
