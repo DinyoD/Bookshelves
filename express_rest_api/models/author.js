@@ -5,12 +5,12 @@ const authorSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    // nationality: {
-    //     type: String
-    // },
-    // yearOfBirth:{
-    //     type: Number,
-    // }
+    pictureUrl: {
+        type: String
+    },
+    yearOfBirth:{
+        type: Number,
+    }
 });
 
 module.exports = mongoose.model('Author', authorSchema);

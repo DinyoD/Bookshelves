@@ -82,16 +82,24 @@ body{
   font-size: 16px;
   font-family: inherit;
 }
+.two-forms-container{
+  display: flex;
+  flex-direction: row;
+}
 .form-container{
+  display: flex;
+  flex-direction: row;
   margin-left: auto;
   padding: 20px;
-  width: 550px;
+
 
   .form{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     min-height: 440px;
+    min-width: 400px;
+    margin-left: 100px;
   }
   .form-control{
     margin: 15px 0;

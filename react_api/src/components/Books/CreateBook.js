@@ -2,25 +2,22 @@ import {useState, useEffect} from 'react'
 
 import data from '../../data/data';
 import authorsService from '../../services/authorsService';
+import bookService from '../../services/booksService';
+import CreateAuthor from '../Author/CreateAuthor';
 
-const Create = () => {
+const CreateBook = ({history}) => {
     const [authors, setAuthors] = useState([]);
+    const [newAuthor, setNewAuthor] = useState(false);
+    
+    const [author, setAuthor ] = useState({})
 
     useEffect(() => {
         authorsService.getAll()
-            .then(a => setAuthors([{name: '-- select author --'}, ...a]))
+            .then(all => setAuthors([{_id: 0, name: data.authorInput.defautValue}, {_id: 1,name: data.authorInput.addAuthorValue}, ...all]))
     },[])
 
     const submitHandler = async(e) => {
         e.preventDefault();
-
-        let authorId;
-        if (e.target.newAuthor.value) {
-            let author = await authorsService.create(e.target.newAuthor.value)
-            authorId = author._id
-        }else{
-            authorId = e.target.author.value;
-        }
 
         let book = {
             title: e.target.title.value,
@@ -29,15 +26,45 @@ const Create = () => {
             language: e.target.language.value,
             description: e.target.description.value,
             coverUrl: e.target.coverUrl.value,
-            author: authorId           
+            author: author          
         }
-        console.log(book);
+        
+        await bookService.create(book)
+        
+        history.push('/books')
+    }
+
+    const handleChange = (e) => {
+        console.log(e.target.value);
+        if (e.target.value === data.authorInput.addAuthorValue) {
+            setNewAuthor(true)
+        }else(
+            setAuthor(authors.find(x=>x.name === e.target.value))
+        )
+    }
+
+    const createAuthor = (author) => {
+        setNewAuthor(false);
+        setAuthor(author)
     }
 
     return (
+
         <div className='form-container'>
             <form className='form' onSubmit={submitHandler}>
                 {/* <div>{error.error ? error.error : ''}</div> */}
+
+                <div className='form-control'>
+                    <label htmlFor='author'>Author:</label>
+                    <select 
+                        className='form-input-book'  
+                        id='author' 
+                        name='author'
+                        onChange={handleChange} >
+                            {authors.map(x => (<option key={x._id} className='form-option' value={x.name}>{x.name}</option>))}
+                    </select>
+                </div>
+
                 <div className='form-control'>
                     <label htmlFor='title'>Book title:</label>
                     <input className='form-input-book' type="text" id='title' name='title' placeholder=''/>
@@ -62,34 +89,22 @@ const Create = () => {
                     <input className='form-input-book' type="number" id='year' name='year' placeholder=''/>
                 </div>
 
-                
-
-                <div className='form-control'>
-                    <label htmlFor='description'>Description:</label>
-                    <textarea className='form-textarea-book' type="text" id='description' name='description' placeholder=''/>
-                </div>
-
                 <div className='form-control'>
                     <label htmlFor='coverUrl'>Book cover:</label>
                     <input className='form-input-book' type="text" id='coverUrl' name='coverUrl' placeholder=''/>
                 </div>
 
                 <div className='form-control'>
-                    <label htmlFor='author'>Author:</label>
-                    <select className='form-input-book' type="text" id='author' name='author' value="author" >
-                        {authors.map(x => (<option key={x._id} className='form-option' value={x._id}>{x.name}</option>))}
-                    </select>
+                    <label htmlFor='description'>Description:</label>
+                    <textarea className='form-textarea-book' type="text" id='description' name='description' placeholder=''/>
                 </div>
 
-                <div className='form-control'>
-                    <label htmlFor='newAuthor'>Add new Author:</label>
-                    <input className='form-input-book' type="text" id='newAuthor' name='newAuthor' placeholder='add new author manualy...'/>
-                </div>
-
-                <input type="submit" className='btn form-btn' value='Submit'/>
+                <input type="submit" className='btn form-btn' value='Submit Book'/>
             </form>
+            {newAuthor && <CreateAuthor  createAuthor={createAuthor}/>}
         </div>
+
     )
 }
 
-export default Create;
+export default CreateBook;

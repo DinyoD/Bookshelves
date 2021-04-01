@@ -15,7 +15,7 @@ const authorsService = {
 
         return await res.json();
     },
-    create: async(name) => {
+    create: async(author) => {
         const res = await fetch(
             serverUrl,
             {
@@ -23,7 +23,7 @@ const authorsService = {
                 headers: {
                     'Content-Type': 'application/json'                       
                 },
-                body: JSON.stringify({ name: name})
+                body: JSON.stringify(author)
             }
         )
 

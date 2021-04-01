@@ -1,7 +1,7 @@
 import { Route } from 'react-router-dom';
 
 import Button from '../Shared/Button';
-import Create from '../Books/Create'
+import CreateBook from './CreateBook'
 
 function Book({history}){
 
@@ -17,7 +17,7 @@ function Book({history}){
                     <Button text='Remove' color='sandybrown' click={handleClick} />
                 </Route>
                 
-                <Route path='/books/create' component={Create}/>
+                <Route path='/books/create' component={CreateBook}/>
             </div>
         </div>
     )
