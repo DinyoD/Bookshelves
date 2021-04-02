@@ -9,17 +9,18 @@ function App() {
   const[user, setUser] = useState({});
 
   const  loginUser = (newUser) => {
-    let { username, _id: id} = newUser;
-    setUser({username, id});
+    setUser(newUser.username)
   }
   const logoutUser = () => {
     console.log('logout');
-    setUser({})
+    localStorage.removeItem('username');
+    localStorage.removeItem('id')
+    setUser('');
   }
 
   return (
     <div className="container">
-        <Header user={user} logoutUser={loginUser}/>       
+        <Header user={localStorage.username} logoutUser={logoutUser}/>       
         <Body user={user} loginUser={loginUser} logoutUser={logoutUser}/>
         <Footer />
     </div>

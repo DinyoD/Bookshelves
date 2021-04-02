@@ -14,7 +14,7 @@ function Book({history}){
             <div>
                 <Route path='/books' exact>
                     <Button text='Create' color='forestgreen' click={handleClick} />
-                    <Button text='Remove' color='sandybrown' click={handleClick} />
+                    <Button text='Book' color='sandybrown' click={handleClick} />
                 </Route>
                 
                 <Route path='/books/create' component={CreateBook}/>
