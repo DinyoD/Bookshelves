@@ -22,12 +22,14 @@ module.exports = function(model){
         const id = req.params.id;
 
         model.findById(id)
+            .populate()
             .then( doc => res.send(doc))
             .catch(next);
     }
 
     function getAll(req, res, next){
         model.find({})
+            .populate()
             .then( docs => res.send(docs))
             .catch(next);
     }
