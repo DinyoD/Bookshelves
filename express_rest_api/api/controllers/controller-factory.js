@@ -22,14 +22,14 @@ module.exports = function(model){
         const id = req.params.id;
 
         model.findById(id)
-            .populate()
+            .populate('reviews author reviews user wishList ownedBooks')
             .then( doc => res.send(doc))
             .catch(next);
     }
 
     function getAll(req, res, next){
         model.find({})
-            .populate()
+            .populate('reviews author reviews user wishList ownedBooks')
             .then( docs => res.send(docs))
             .catch(next);
     }
