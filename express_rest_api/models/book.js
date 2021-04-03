@@ -27,9 +27,9 @@ const bookSchema = mongoose.Schema({
         ref: 'Author',
         require: true,
     },
-    reviews:[{
+    comments:[{
         type: mongoose.Types.ObjectId,
-        ref: 'Review'
+        ref: 'Comment'
     }]
 })
 

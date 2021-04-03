@@ -150,7 +150,7 @@ body{
 
     .book-cover{
       width: 160px;
-      height: 250px;
+      height: 240px;
       align-items: center;
       margin-right: 20px;
       border-radius: 5px;
@@ -184,4 +184,11 @@ body{
         }
     }
   }
+}
+
+.book-details-container{
+  display: flex;
+  flex-direction: column;
+  margin: 3px;
+  
 }

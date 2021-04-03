@@ -1,6 +1,7 @@
-const BookCard = ({title, coverUrl, author, genre, year}) => {
+const BookCard = ({id, title, coverUrl, author, genre, year, click}) => {
+
     return (
-        <div className='book-container'>
+        <div className='book-container' onClick={() => click(id)}>
             <div className='book-cover'>
                 <img className='book-cover-img' src={coverUrl} alt=""/>
             </div>

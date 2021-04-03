@@ -3,7 +3,7 @@ import { Route} from 'react-router-dom';
 import Home from '../Home/Home';
 import Register from '../AuthForms/Register';
 import Login from '../AuthForms/Login';
-import Book from '../Books/Book';
+import Books from '../Books/Books';
 
 function Body({loginUser}){
     return (
@@ -15,7 +15,7 @@ function Body({loginUser}){
             <Route path='/login' >
                 <Login loginUser={loginUser}/>
             </Route>
-            <Route path='/books' component={Book} />
+            <Route path='/books' component={Books} />
 
         </div>
     )

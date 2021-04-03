@@ -3,13 +3,19 @@ import { Route } from 'react-router-dom';
 import Button from '../Shared/Button';
 import CreateBook from './CreateBook'
 import AllBooks from './AllBooks'
+import BookDetails from './BookDetails';
 
-function Book({history}){
+function Books({history}){
 
     const handleClick = (path) => {
 
         history.push(`/books/${path}`)
     }
+
+    const getBookDetails = (id) => {
+        history.push(`/books/details/${id}`)
+    }
+
     return (
         <div>
             <div>
@@ -19,10 +25,15 @@ function Book({history}){
                 </Route>
                 
                 <Route path='/books/create' component={CreateBook}/>
-                <Route path='/books/all' component={AllBooks}/>
+
+                <Route path='/books/all'>
+                    <AllBooks clickBook={(id) => getBookDetails(id)} />
+                </Route>
+
+                <Route path='/books/details/:id' component={BookDetails}/>
             </div>
         </div>
-    )
+    ) 
 }
 
-export default Book;
+export default Books;
