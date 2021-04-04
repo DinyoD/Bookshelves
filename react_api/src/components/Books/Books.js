@@ -7,11 +7,6 @@ import BookDetails from './BookDetails';
 
 function Books({history}){
 
-    const handleClick = (path) => {
-
-        history.push(`/books/${path}`)
-    }
-
     const getBookDetails = (id) => {
         history.push(`/books/details/${id}`)
     }
@@ -19,17 +14,12 @@ function Books({history}){
     return (
         <div>
             <div>
-                <Route path='/books' exact>
-                    <Button text='Create' color='forestgreen' path='create' click={handleClick} />
-                    <Button text='All Book' color='sandybrown' path='all' click={handleClick} />
-                </Route>
-                
-                <Route path='/books/create' component={CreateBook}/>
-
-                <Route path='/books/all'>
+               
+                <Route exact path='/books'>
                     <AllBooks clickBook={(id) => getBookDetails(id)} />
                 </Route>
 
+                <Route path='/books/create' component={CreateBook}/>
                 <Route path='/books/details/:id' component={BookDetails}/>
             </div>
         </div>

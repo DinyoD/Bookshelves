@@ -9,8 +9,12 @@ const Header = ({ user, logoutUser }) => {
             <h2>Bookshelves</h2>
             <div className='header-nav'>
                 <Link className='header-nav-link' to='/home'>Home</Link>
+                <Link className='header-nav-link' to='/home'>Genres</Link>
+                <Link className='header-nav-link' to='/home'>Authors</Link>
+
+                {user ? <Link className='header-nav-link' to='/books/create'>Add Book</Link> : ''}
                 {user 
-                    ? <Link className='header-nav-link' to='/books'>{user}</Link>
+                    ? <Link className='header-nav-link' to='/books'>{user} books</Link>
                     : <Link className='header-nav-link' to='/register'>Register</Link>}
                 {user
                     ? <Link className='header-nav-link' to='#' onClick={logoutUser}>Logout</Link> 

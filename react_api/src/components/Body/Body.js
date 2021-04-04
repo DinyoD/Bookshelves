@@ -1,6 +1,5 @@
-import { Route} from 'react-router-dom';
+import { Route, Redirect} from 'react-router-dom';
 
-import Home from '../Home/Home';
 import Register from '../AuthForms/Register';
 import Login from '../AuthForms/Login';
 import Books from '../Books/Books';
@@ -8,7 +7,7 @@ import Books from '../Books/Books';
 function Body({loginUser}){
     return (
         <div className='body-container'>
-            <Route path='/home' component={Home}/>
+            <Route path='/home' render={() => (<Redirect to='/books' />)} />
             <Route path='/register'>
                 <Register loginUser={loginUser}/>
             </Route>

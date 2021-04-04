@@ -28,6 +28,21 @@ const bookService = {
         )
 
         return await res.json();
+    },
+    getOne: async(id) => {
+
+        let currentUrl = serverUrl +"/"+id;
+        const res = await fetch(
+            currentUrl,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'                       
+                }
+            }
+        )
+
+        return await res.json();
     }
 
 }

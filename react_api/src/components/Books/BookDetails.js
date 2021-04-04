@@ -1,13 +1,26 @@
 import { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom'
 
+import booksService from '../../services/booksService';
+
 const BookDetails = ({match}) => {
+
+    const [ book, setBook ] = useState({})
+
+    useEffect(()=> {
+        booksService.getOne(match.params.id)
+            .then( b => {
+                setBook(b)
+            });
+            
+    },[match.params.id])
+
     return (
         <div className='book-details-container'>
 
             <div className='book-details-aside'>
                 <div className='book-details-cover'>
-                    <img className='image'src="https://i.pinimg.com/originals/08/a5/d6/08a5d6f4bce7fc216214704d67ac5e23.jpg" alt=""/>
+                    <img className='image'src={book.coverUrl} alt=""/>
                 </div>
                 <div className="book-details-actions">                  
                     {/* <Link className='action-link' to='#'>Readed</Link> */}
@@ -19,15 +32,13 @@ const BookDetails = ({match}) => {
             </div>
 
             <div className="book-details-main">
-                <h1 className="details-title">Outlander</h1>
+                <h1 className="details-title">{book.title}</h1>
                 <div className="details-rating"></div>
-                <h3 className="details-author">By: Diana Cabaldon</h3>
-                <p className="details-description">
-                    The Outlander series focuses on 20th-century British nurse Claire Randall, who time travels to 18th-century Scotland and finds adventure and romance with the dashing Highland warrior Jamie Fraser. The books have sold over 25 million copies worldwide as of August 2014.
-                </p>
-                <p className="details-info">Language: English</p>
-                <p className="details-info">Published: 1991</p>
-                <div className='details-info'>Genre: Hystorical fantasy</div>
+                <h3 className="details-author">By: {book.author?.name}</h3>
+                <p className="details-description">{book.description}</p>
+                <p className="details-info">Language: {book.language}</p>
+                <p className="details-info">Published: {book.year}</p>
+                <div className='details-info'>Genre: {book.genre}</div>
                 <div className='details-comments'>
                         <form className='form'>
                             <label htmlFor="comment">
