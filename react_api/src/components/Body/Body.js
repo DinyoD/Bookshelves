@@ -4,7 +4,7 @@ import Register from '../AuthForms/Register';
 import Login from '../AuthForms/Login';
 import Books from '../Books/Books';
 
-function Body({loginUser}){
+function Body({loginUser, user}){
     return (
         <div className='body-container'>
             <Route path='/home' render={() => (<Redirect to='/books' />)} />
@@ -14,8 +14,9 @@ function Body({loginUser}){
             <Route path='/login' >
                 <Login loginUser={loginUser}/>
             </Route>
-            <Route path='/books' component={Books} />
-
+            <Route path='/books' render={(props) =>  <Books {...props} user={user}/>}>
+        	   
+            </Route>
         </div>
     )
 };

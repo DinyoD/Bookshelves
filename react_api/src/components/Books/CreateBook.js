@@ -29,9 +29,9 @@ const CreateBook = ({history}) => {
             author: author          
         }
         
-        await bookService.create(book)
+        let createdBook = await bookService.create(book)
         
-        history.push('/books')
+        history.push(`/books/details/${createdBook._id}`)
     }
 
     const handleChange = (e) => {

@@ -219,7 +219,7 @@ body{
         color: $color-primary;
         background-color: $color-secondary;
         border-radius: 5px;
-        padding: 5px;
+        padding: 15px;
       }
     }
   }
@@ -239,6 +239,7 @@ body{
       margin-bottom: 50px;
     }
     .details-description{
+      font-size: 12px;
       margin-bottom: 40px;
       padding-right: 155px;
       font-style: italic;

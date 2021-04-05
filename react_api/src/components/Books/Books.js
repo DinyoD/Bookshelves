@@ -1,11 +1,10 @@
 import { Route } from 'react-router-dom';
 
-import Button from '../Shared/Button';
 import CreateBook from './CreateBook'
 import AllBooks from './AllBooks'
 import BookDetails from './BookDetails';
 
-function Books({history}){
+function Books({history, user}){
 
     const getBookDetails = (id) => {
         history.push(`/books/details/${id}`)
@@ -20,7 +19,9 @@ function Books({history}){
                 </Route>
 
                 <Route path='/books/create' component={CreateBook}/>
-                <Route path='/books/details/:id' component={BookDetails}/>
+                <Route path='/books/details/:id' render={(props) => <BookDetails {...props} user={user} />}>
+                    
+                </Route>
             </div>
         </div>
     ) 
