@@ -2,43 +2,43 @@ import { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom'
 
 import booksService from '../../services/booksService';
+import usersService from '../../services/usersService';
 
 const BookDetails = ({match, user}) => {
 
     const [book, setBook ] = useState({})
-    const [owned, setOwned] = useState(true)
-    const [wished, setWished] = useState(true)
+    const [owned, setOwned] = useState(false)
+    const [wished, setWished] = useState(false)
 
 
 
     useEffect(()=> {
         booksService.getOne(match.params.id)
-            .then( b => {
-                setBook(b)
-            });
-            
-
-    },[])
+            .then( b => setBook(b))
+            console.log(111);
+    },[]);
 
     useEffect(() => {
-        if(book && user){
-
-            let ownedBook = user.ownedBooks?.includes( x=> x._id === book._id);
-            console.log(`owned - ${ownedBook}`);
-            setOwned(ownedBook)
-
-            let wishedBook = user.wishList?.includes( x=> x._id === book._id);
-            console.log(`wished - ${wishedBook}`);
-            setWished(wishedBook)
-        }
-
-    },[book])
-
-    console.log(user.ownedBooks);
-
+        console.log(user);
+        setOwned(user.ownedBooks?.some( x=> x._id === book._id || x === book._id ));
+        setWished(user.wishList?.some( x=> x._id === book._id || x === book._id))
+        console.log(222);
+    }, [book, user])
 
     const AddtoOwned = () => {
-        console.log(user);
+        usersService.addBookToOwnedList(book._id, user)
+        .then(u => {
+            console.log(u);
+            setOwned(true);
+        })       
+    }
+
+    const AddtoWished = () => {
+        usersService.addBookToWishList(book._id, user)
+        .then(u => {
+            console.log(u);
+            setWished(true);
+        })  
     }
 
     return (
@@ -55,7 +55,7 @@ const BookDetails = ({match, user}) => {
                         :  <Link className='action-link' to='#' onClick={AddtoOwned}>Add to owned list</Link>}
                     {wished
                         ? <Link className='action-link' to='#'>Remove from wish list</Link>
-                        : <Link className='action-link' to='#'>Add to wish list</Link>}
+                        : <Link className='action-link' to='#' onClick={AddtoWished}>Add to wish list</Link>}
                 </div>
             </div>
 

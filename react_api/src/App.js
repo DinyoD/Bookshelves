@@ -1,4 +1,5 @@
 import {useState, useEffect } from 'react';
+import { useHistory} from 'react-router-dom';
 
 import Header from './components/Header/Header';
 import Body from './components/Body/Body';
@@ -9,16 +10,7 @@ import userService from './services/usersService';
 
 function App() {
   const[user, setUser] = useState({});
-
-  const  loginUser = (newUser) => {
-    setUser(newUser)
-  }
-  const logoutUser = () => {
-    console.log('logout');
-    localStorage.removeItem('username');
-    localStorage.removeItem('id')
-    setUser('');
-  }
+  let history = useHistory();
 
   useEffect(() => {
     userService.getOne(localStorage.id)
@@ -26,9 +18,23 @@ function App() {
   },[])
 
 
+  const  loginUser = (newUser) => {
+    setUser(newUser)
+  }
+
+  const logoutUser = () => {
+    console.log('logout');
+    localStorage.removeItem('username');
+    localStorage.removeItem('id')
+    setUser('');
+    history.push('/books')
+  }
+
+
+
   return (
     <div className="container">
-        <Header user={localStorage.username} logoutUser={logoutUser}/>       
+        <Header user={user.username} logoutUser={logoutUser}/>       
         <Body user={user} loginUser={loginUser} logoutUser={logoutUser}/>
         <Footer />
     </div>

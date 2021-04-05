@@ -18,9 +18,38 @@ const userService = {
         return await res.json();
 
     },
-    
-    addBookToOwnedList: (bookId)=> {
 
+    addBookToOwnedList: async(bookId, user)=> {
+        let currentUrl = serverUrl + '/' + user._id;
+
+        const res = await fetch(
+            currentUrl,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'                       
+                },
+                body: JSON.stringify({...user, ownedBooks: [ ...user.ownedBooks, bookId]})
+            }
+        )
+
+        return await res.json();
+    },
+    addBookToWishList : async(bookId, user) => {
+        let currentUrl = serverUrl + '/' + user._id;
+
+        const res = await fetch(
+            currentUrl,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'                       
+                },
+                body: JSON.stringify({...user, wishList: [ ...user.wishList, bookId]})
+            }
+        )
+
+        return await res.json();
     }
 } 
 
