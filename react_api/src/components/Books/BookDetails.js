@@ -1,11 +1,14 @@
-import { useState, useEffect} from 'react';
+import { useState, useEffect, useContext} from 'react';
 import { Link } from 'react-router-dom'
 
 import booksService from '../../services/booksService';
 import usersService from '../../services/usersService';
+import UserContext from '../Contexts/UserContext';
 
-const BookDetails = ({match, user}) => {
+const BookDetails = ({match}) => {
 
+    const [user, setUser] = useContext(UserContext);
+    console.log(user);
     const [book, setBook ] = useState({})
     const [owned, setOwned] = useState(false)
     const [wished, setWished] = useState(false)
@@ -15,20 +18,17 @@ const BookDetails = ({match, user}) => {
     useEffect(()=> {
         booksService.getOne(match.params.id)
             .then( b => setBook(b))
-            console.log(111);
     },[]);
 
     useEffect(() => {
         console.log(user);
         setOwned(user.ownedBooks?.some( x=> x._id === book._id || x === book._id ));
         setWished(user.wishList?.some( x=> x._id === book._id || x === book._id))
-        console.log(222);
     }, [book, user])
 
     const AddtoOwned = () => {
         usersService.addBookToOwnedList(book._id, user)
         .then(u => {
-            console.log(u);
             setOwned(true);
         })       
     }

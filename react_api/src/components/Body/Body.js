@@ -7,7 +7,7 @@ import Books from '../Books/Books';
 function Body({loginUser, user}){
     return (
         <div className='body-container'>
-            <Route path='/home' render={() => (<Redirect to='/books' />)} />
+            <Route exact path='/' render={() => (<Redirect to='/books' />)} />
             <Route path='/register'>
                 <Register loginUser={loginUser}/>
             </Route>

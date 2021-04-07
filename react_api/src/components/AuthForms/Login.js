@@ -15,12 +15,7 @@ const Login = ({ loginUser }) => {
         
         authService.login(user)
         .then((logedUser) => {
-            console.log(logedUser);
-            localStorage.setItem('username', logedUser.username)
-            localStorage.setItem('id', logedUser._id)
-
             loginUser(logedUser);
-
             history.push('/books')
         })
         .catch();
