@@ -1,5 +1,5 @@
 import React, {useState, useEffect } from 'react';
-import { useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import Header from './components/Header/Header';
 import Body from './components/Body/Body';
@@ -10,12 +10,16 @@ import userService from './services/usersService';
 
 function App() {
 
-  const[user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   let history = useHistory();
 
+  console.log(user);
+
   useEffect(() => {
-    userService.getOne(localStorage.id)
-    .then(u => setUser(u))
+    if (localStorage.id) {     
+      userService.getOne(localStorage.id)
+      .then(u => setUser(u))
+    }
   },[])
 
 
@@ -37,9 +41,9 @@ function App() {
 
   return (
     <div className="container">
-        <UserContext.Provider value={[user , setUser]}>
-          <Header user={user.username} logoutUser={logoutUser}/>       
-          <Body user={user} loginUser={loginUser} />
+        <UserContext.Provider value={[user, setUser]}>
+          <Header  logoutUser={logoutUser}/>       
+          <Body  loginUser={loginUser} />
           <Footer />
         </UserContext.Provider>
     </div>

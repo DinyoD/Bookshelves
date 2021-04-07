@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 import UserContext from '../Contexts/UserContext';
 
 const Header = ({ logoutUser }) => {
-    const [user, setUser] =  useContext(UserContext)
-    console.log(user);
+
+    const [ user ] =useContext(UserContext);
+    console.log(user)
+
     return (
         <header className='header'>
             <h2>Bookshelves</h2>
