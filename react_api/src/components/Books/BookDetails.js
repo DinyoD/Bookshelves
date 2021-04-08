@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext} from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { FaRegCheckCircle } from 'react-icons/fa';
 
 import booksService from '../../services/booksService';
 import usersService from '../../services/usersService';
@@ -13,8 +14,6 @@ const BookDetails = ({match}) => {
     const [owned, setOwned] = useState(false)
     const [wished, setWished] = useState(false)
 
-
-
     useEffect(()=> {
         booksService.getOne(match.params.id)
             .then( b => setBook(b))
@@ -24,7 +23,7 @@ const BookDetails = ({match}) => {
         console.log(user);
         setOwned(user?.ownedBooks?.some( x=> x._id === book._id || x === book._id ));
         setWished(user?.wishList?.some( x=> x._id === book._id || x === book._id))
-    }, [])
+    }, [user, book])
 
     const AddToOwned = () => {
         usersService.addBookToOwnedList(book._id, user)
@@ -59,6 +58,7 @@ const BookDetails = ({match}) => {
             setUser({...user, ownedBooks: [...user.ownedBooks.filter(x => x._id !== book._id && x !== book._id)]})
         })
     }
+
     const RemoveFromWished = () => {
         usersService.removeBookFromWishedList(book._id, user)
         .then(() => {
@@ -77,10 +77,10 @@ const BookDetails = ({match}) => {
                 <div className="book-details-actions">                  
                     {/* <Link className='action-link' to='#'>Readed</Link> */}
                     { owned 
-                        ?  <Link className='action-link' to='#' onClick={RemoveFromOwned}>Remove from owned list</Link>
+                        ?  <Link className='action-link remove' to='#' onClick={RemoveFromOwned}>Remove from owned list</Link>
                         :  <Link className='action-link' to='#' onClick={AddToOwned}>Add to owned list</Link>}
                     {wished && !owned
-                        ? <Link className='action-link' to='#' onClick={RemoveFromWished}>Remove from wish list</Link>
+                        ? <Link className='action-link remove' to='#' onClick={RemoveFromWished}>Remove from wish list</Link>
                         : ''}
                     {!wished && !owned
                         ? <Link className='action-link' to='#' onClick={AddToWished}>Add to wish list</Link>
@@ -90,7 +90,10 @@ const BookDetails = ({match}) => {
             </div>
 
             <div className="book-details-main">
-                <h1 className="details-title">{book.title}</h1>
+                <div className="details-title-container" >
+                    <h1 className="details-title">{book.title}</h1>
+                    <FaRegCheckCircle className={owned ? 'check owned' : ( wished ? 'check wished' : 'check')}/>
+                </div>
                 <div className="details-rating"></div>
                 <h3 className="details-author">By: {book.author?.name}</h3>
                 <p className="details-description">{book.description}</p>
