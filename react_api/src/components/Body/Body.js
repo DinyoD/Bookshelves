@@ -7,16 +7,15 @@ import Books from '../Books/Books';
 function Body({loginUser, user}){
     return (
         <div className='body-container'>
+
             <Route exact path='/' render={() => (<Redirect to='/books' />)} />
-            <Route path='/register'>
-                <Register loginUser={loginUser}/>
-            </Route>
-            <Route path='/login' >
-                <Login loginUser={loginUser}/>
-            </Route>
-            <Route path='/books' render={(props) =>  <Books {...props} user={user}/>}>
-        	   
-            </Route>
+
+            <Route path='/register' render={(props) => <Register {...props} loginUser={loginUser}/>}/>
+ 
+            <Route path='/login'  render={(props) => <Login {...props} loginUser={loginUser}/>}/>
+
+            <Route path='/books' render={(props) =>  <Books {...props} user={user}/>}/>
+
         </div>
     )
 };

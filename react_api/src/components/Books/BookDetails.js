@@ -2,6 +2,8 @@ import { useState, useEffect, useContext} from 'react';
 import { Link } from 'react-router-dom';
 import { FaRegCheckCircle } from 'react-icons/fa';
 
+import CreateComment from '../Comment/CreateComment';
+
 import booksService from '../../services/booksService';
 import usersService from '../../services/usersService';
 import UserContext from '../Contexts/UserContext';
@@ -77,13 +79,13 @@ const BookDetails = ({match}) => {
                 <div className="book-details-actions">                  
                     {/* <Link className='action-link' to='#'>Readed</Link> */}
                     { owned 
-                        ?  <Link className='action-link remove' to='#' onClick={RemoveFromOwned}>Remove from owned list</Link>
-                        :  <Link className='action-link' to='#' onClick={AddToOwned}>Add to owned list</Link>}
+                        ?  <Link className='action-link remove' to='#' onClick={RemoveFromOwned}>Remove from  OWNED list</Link>
+                        :  <Link className='action-link' to='#' onClick={AddToOwned}>Add to OWNED list</Link>}
                     {wished && !owned
-                        ? <Link className='action-link remove' to='#' onClick={RemoveFromWished}>Remove from wish list</Link>
+                        ? <Link className='action-link remove' to='#' onClick={RemoveFromWished}>Remove from WISH list</Link>
                         : ''}
                     {!wished && !owned
-                        ? <Link className='action-link' to='#' onClick={AddToWished}>Add to wish list</Link>
+                        ? <Link className='action-link' to='#' onClick={AddToWished}>Add to WISH list</Link>
                         : ''
                     }   
                 </div>
@@ -95,21 +97,13 @@ const BookDetails = ({match}) => {
                     <FaRegCheckCircle className={owned ? 'check owned' : ( wished ? 'check wished' : 'check')}/>
                 </div>
                 <div className="details-rating"></div>
-                <h3 className="details-author">By: {book.author?.name}</h3>
+                <h3 className="details-author">by: {book.author?.name}</h3>
                 <p className="details-description">{book.description}</p>
-                <p className="details-info">Language: {book.language}</p>
-                <p className="details-info">Published: {book.year}</p>
-                <div className='details-info'>Genre: {book.genre}</div>
+                <p className="details-info">language: {book.language}</p>
+                <p className="details-info">published: {book.year}</p>
+                <div className='details-info'>genre: {book.genre}</div>
                 <div className='details-comments'>
-                        <form className='form'>
-                            <label htmlFor="comment">
-                                Write your comment:
-                                <input className='btn' type="button" value="Submit"/>
-                            </label>
-                            <br/>
-                            <textarea name="comment" id="comment" cols="100" rows="5"></textarea>
-                            <br/>
-                        </form>                
+                    <CreateComment />              
                 </div>
             </div>
             

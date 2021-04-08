@@ -238,7 +238,7 @@ body{
     .details-title-container{
       display: flex;
       flex-direction: row;
-
+      margin-bottom: -20px;
       .check{
         margin-left: auto;
         font-size: 92px;
@@ -251,17 +251,13 @@ body{
         color: $color_alert;
       }
     }
-
-    .details-title{
-      margin-bottom: 30px;
-    }
     .details-author{
-      margin-bottom: 50px;
+      margin-bottom: 40px;
     }
     .details-description{
       font-size: 13px;
       line-height: 1.5;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
       padding-right: 155px;
       font-style: italic;
       color: $color-secondary;
