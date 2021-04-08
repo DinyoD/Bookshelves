@@ -50,7 +50,40 @@ const userService = {
         )
 
         return await res.json();
+    },
+
+    removeBookFromWishedList: async(bookId, user) => {
+        let currentUrl = serverUrl + '/' + user._id;
+        const res = await fetch(
+            currentUrl,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'                       
+                },
+                body: JSON.stringify({...user, wishList: [...user.wishList.filter(x=> x._id !== bookId && x !== bookId )]})
+            }
+        )
+
+        return await res.json();
+    },
+
+    removeBookFromOwnedList: async(bookId, user) => {
+        let currentUrl = serverUrl + '/' + user._id;
+        const res = await fetch(
+            currentUrl,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'                       
+                },
+                body: JSON.stringify({...user, ownedBooks: [...user.ownedBooks.filter(x=> x._id !== bookId && x !== bookId)]})
+            }
+        )
+
+        return await res.json();
     }
+
 } 
 
 export default userService;

@@ -31,7 +31,7 @@ function App() {
 
   const logoutUser = () => {
 
-    setUser({});
+    setUser(null);
     localStorage.removeItem('username');
     localStorage.removeItem('id')
     history.push('/books')

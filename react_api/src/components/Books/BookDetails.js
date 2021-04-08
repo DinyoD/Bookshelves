@@ -8,7 +8,7 @@ import UserContext from '../Contexts/UserContext';
 const BookDetails = ({match}) => {
 
     const [user, setUser] = useContext(UserContext);
-    console.log(user);
+
     const [book, setBook ] = useState({})
     const [owned, setOwned] = useState(false)
     const [wished, setWished] = useState(false)
@@ -18,27 +18,53 @@ const BookDetails = ({match}) => {
     useEffect(()=> {
         booksService.getOne(match.params.id)
             .then( b => setBook(b))
-    },[]);
+    },[match.params.id]);
 
     useEffect(() => {
         console.log(user);
-        setOwned(user.ownedBooks?.some( x=> x._id === book._id || x === book._id ));
-        setWished(user.wishList?.some( x=> x._id === book._id || x === book._id))
-    }, [book, user])
+        setOwned(user?.ownedBooks?.some( x=> x._id === book._id || x === book._id ));
+        setWished(user?.wishList?.some( x=> x._id === book._id || x === book._id))
+    }, [])
 
-    const AddtoOwned = () => {
+    const AddToOwned = () => {
         usersService.addBookToOwnedList(book._id, user)
-        .then(u => {
+        .then(() => {
             setOwned(true);
-        })       
+            usersService.removeBookFromWishedList(book._id, user)
+                .then(() => {
+                    setWished(false);
+                    setUser(
+                        {
+                            ...user, 
+                            ownedBooks: [...user.ownedBooks, book._id], 
+                            wishList: [...user.wishList.filter(x => x._id !== book._id && x !== book._id)]
+                        })
+            })
+        })
+        .then(() => console.log(user))      
     }
 
-    const AddtoWished = () => {
+    const AddToWished = () => {
         usersService.addBookToWishList(book._id, user)
-        .then(u => {
-            console.log(u);
+        .then(() => {
             setWished(true);
+            setUser({...user, wishList: [...user.wishList, book._id]});
         })  
+    }
+
+    const RemoveFromOwned = () => {
+        usersService.removeBookFromOwnedList(book._id, user)
+        .then(() => {
+            setOwned(false);
+            setUser({...user, ownedBooks: [...user.ownedBooks.filter(x => x._id !== book._id && x !== book._id)]})
+        })
+    }
+    const RemoveFromWished = () => {
+        usersService.removeBookFromWishedList(book._id, user)
+        .then(() => {
+            setWished(false);
+            setUser({...user, wishList: [...user.wishList.filter(x => x._id !== book._id && x !== book._id)]})
+        })
     }
 
     return (
@@ -51,11 +77,15 @@ const BookDetails = ({match}) => {
                 <div className="book-details-actions">                  
                     {/* <Link className='action-link' to='#'>Readed</Link> */}
                     { owned 
-                        ?  <Link className='action-link' to='#'>Remove from owned list</Link>
-                        :  <Link className='action-link' to='#' onClick={AddtoOwned}>Add to owned list</Link>}
-                    {wished
-                        ? <Link className='action-link' to='#'>Remove from wish list</Link>
-                        : <Link className='action-link' to='#' onClick={AddtoWished}>Add to wish list</Link>}
+                        ?  <Link className='action-link' to='#' onClick={RemoveFromOwned}>Remove from owned list</Link>
+                        :  <Link className='action-link' to='#' onClick={AddToOwned}>Add to owned list</Link>}
+                    {wished && !owned
+                        ? <Link className='action-link' to='#' onClick={RemoveFromWished}>Remove from wish list</Link>
+                        : ''}
+                    {!wished && !owned
+                        ? <Link className='action-link' to='#' onClick={AddToWished}>Add to wish list</Link>
+                        : ''
+                    }   
                 </div>
             </div>
 
