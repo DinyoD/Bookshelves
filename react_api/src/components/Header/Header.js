@@ -1,12 +1,12 @@
 import { useContext } from 'react';
 import { Link } from "react-router-dom";
+import { FaBookReader } from 'react-icons/fa'
 
 import UserContext from '../Contexts/UserContext';
 
 const Header = ({ logoutUser }) => {
 
     const [ user ] =useContext(UserContext);
-    console.log(user)
 
     return (
         <header className='header'>
@@ -18,7 +18,10 @@ const Header = ({ logoutUser }) => {
 
                 {user ? <Link className='header-nav-link' to='/books/create'>Add Book</Link> : ''}
                 {user 
-                    ? <Link className='header-nav-link' to='/books'>{user.username} books</Link>
+                    ? <Link className='header-nav-link' to='/books'>
+                        <FaBookReader className='user-icon'/>
+                        <span className='user-name'>{user.username}</span>        
+                      </Link>
                     : <Link className='header-nav-link' to='/register'>Register</Link>}
                 {user
                     ? <Link className='header-nav-link' to='#' onClick={logoutUser}>Logout</Link> 

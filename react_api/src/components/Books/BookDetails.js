@@ -21,7 +21,6 @@ const BookDetails = ({match}) => {
     },[match.params.id]);
 
     useEffect(() => {
-        console.log(user);
         setOwned(user?.ownedBooks?.some( x=> x._id === book._id || x === book._id ));
         setWished(user?.wishList?.some( x=> x._id === book._id || x === book._id))
     }, [book._id, user])
@@ -29,7 +28,6 @@ const BookDetails = ({match}) => {
     const AddToOwned = () => {
         usersService.addBookToOwnedList(book._id, user)
         .then(updatedUser => {
-            console.log(`responce: ${updatedUser}`);
             setOwned(true);
             usersService.removeBookFromWishedList(book._id, updatedUser)
                 .then(() => {
@@ -42,8 +40,7 @@ const BookDetails = ({match}) => {
                             })
                         )
             })
-        })
-        .then(() => console.log(user))      
+        });  
     }
 
     const AddToWished = () => {

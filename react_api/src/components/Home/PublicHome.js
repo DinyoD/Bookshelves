@@ -1,7 +1,8 @@
-import Books from '../Books/Books';
+import AllBooks from '../Books/AllBooks';
+import { booksGroup } from '../../data/data.json';
 
 const PublicHome = () => {
-    return <Books />
+    return <AllBooks group={booksGroup.all} />
 }
 
 export default PublicHome;

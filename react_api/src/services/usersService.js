@@ -40,9 +40,7 @@ const userService = {
                 }
             )
             
-            let resUser =  await res.json();
-            console.log(resUser);
-            return resUser;
+            return await res.json();
             
         } catch (error) {
             console.log(error);

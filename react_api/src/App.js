@@ -13,8 +13,6 @@ function App() {
   const [user, setUser] = useState(null);
   let history = useHistory();
 
-  console.log(user);
-
   useEffect(() => {
     if (localStorage.id) {     
       userService.getOne(localStorage.id)

@@ -38,8 +38,16 @@ body{
       color: $color-primary;
       font-size: 18px;
       padding-top: 3px;
+      .user-icon{
+        font-size: 32px;
+        margin-right: 10px;
+        margin-top: -8px;
+        margin-bottom: -8px;
+      }
+      .user-name{
+
+      }
     }
-  
   }
 }
 
@@ -141,9 +149,9 @@ body{
   flex-wrap: wrap;
 
   .book-container{
-    margin: 3px;
+    margin: 6px;
     padding: 8px;
-    min-width: 340px;
+    min-width: 350px;
     display: flex;
     flex-direction: row;
     border: 1px solid $color-secondary;
@@ -167,9 +175,9 @@ body{
     .book-info{
       display: flex;
       flex-direction: column;
-      width: 160px;
+      width: 170px;
         .book-info-item{
-          margin: 10px 0;
+          margin: 10px 5px;
           text-align: end;
         }
         .title{
@@ -277,4 +285,27 @@ body{
     }
   }
   
+}
+
+.home-links-container{
+  margin-top: 2px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-size: 24px;
+
+  .home-link{
+    width: 33.33%;
+    text-align: center;
+    padding: 10px 0;
+    color: $color-secondary;
+    background-color: $color-primary;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .active{
+    color: $color-primary;
+    background-color: $color-secondary;
+    border-radius: 10px;
+  }
 }

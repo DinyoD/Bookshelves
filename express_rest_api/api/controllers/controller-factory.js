@@ -13,7 +13,6 @@ module.exports = function(model){
 
         model.findByIdAndUpdate(id, req.body, {new: true})
             .then( doc => {
-                console.log(`send: ${doc}`);
                 res.send(doc);
             })
             .catch(next);
