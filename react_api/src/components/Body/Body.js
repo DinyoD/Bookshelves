@@ -1,10 +1,17 @@
+import { useContext } from 'react';
 import { Route, Redirect} from 'react-router-dom';
 
 import Register from '../AuthForms/Register';
 import Login from '../AuthForms/Login';
-import Books from '../Books/Books';
+import PublicHome from '../Home/PublicHome';
+import UsersHome from '../Home/UsersHome';
 
-function Body({loginUser, user}){
+import UserContext from '../Contexts/UserContext';
+
+function Body({loginUser}){
+
+    const [user] = useContext(UserContext);
+
     return (
         <div className='body-container'>
 
@@ -14,7 +21,10 @@ function Body({loginUser, user}){
  
             <Route path='/login'  render={(props) => <Login {...props} loginUser={loginUser}/>}/>
 
-            <Route path='/books' render={(props) =>  <Books {...props} user={user}/>}/>
+            { user
+                ? <Route path='/books' component={UsersHome}/>
+                : <Route path='/books' component={PublicHome}/>
+            }
 
         </div>
     )

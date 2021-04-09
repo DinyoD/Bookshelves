@@ -1,13 +1,14 @@
-import { Route } from 'react-router-dom';
+import { Route, useHistory } from 'react-router-dom';
 import { useContext } from 'react';
 import CreateBook from './CreateBook'
-import AllBooks from './AllBooks'
+import ListOfBooks from './ListOfBooks'
 import BookDetails from './BookDetails';
 import UserContext from '../Contexts/UserContext';
 
-function Books({history}){
+function Books(){
 
     const [user] = useContext(UserContext);
+    const history = useHistory();
 
     const getBookDetails = (id) => {
         console.log(user);
@@ -21,11 +22,11 @@ function Books({history}){
             <div>
                
                 <Route exact path='/books'>
-                    <AllBooks clickBook={(id) => getBookDetails(id) } />
+                    <ListOfBooks clickBook={(id) => getBookDetails(id)}/>
                 </Route>
 
                 <Route path='/books/create' component={CreateBook}/>
-                <Route path='/books/details/:id' render={(props) => <BookDetails {...props} user={user} />} />
+                <Route path='/books/details/:id' component={BookDetails} />
 
             </div>
         </div>

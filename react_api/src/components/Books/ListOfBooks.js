@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 
 import BookCard from './BookCard';
 import booksService from '../../services/booksService';
-// import Login from '../AuthForms/Login';
 
 const AllBooks = ({clickBook}) => {
 
@@ -10,7 +9,7 @@ const AllBooks = ({clickBook}) => {
 
     useEffect(() => {
         booksService.getAll()
-            .then(allBooks => setBooks(allBooks))
+            .then(allBooks => setBooks(allBooks));
     },[])
 
     const clickHandler =(id) => {

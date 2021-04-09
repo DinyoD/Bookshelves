@@ -28,5 +28,10 @@
     "authorInput": {
         "defautValue": "-- select author --",
         "addAuthorValue": "-- ADD NEW AUTHOR"
+    },
+    "booksGroup": {
+        "all": "all",
+        "myBooks": "myBooks",
+        "wishList": "wishList"
     }
 }

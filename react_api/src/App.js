@@ -22,7 +22,6 @@ function App() {
     }
   },[])
 
-
   const  loginUser = (newUser) => {
     setUser(newUser);
     localStorage.setItem('username', newUser.username)
@@ -36,8 +35,6 @@ function App() {
     localStorage.removeItem('id')
     history.push('/books')
   }
-
-
 
   return (
     <div className="container">
