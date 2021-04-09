@@ -11,27 +11,32 @@ import userService from './services/usersService';
 function App() {
 
   const [user, setUser] = useState(null);
+  const[isLogin, setIsLogin] = useState(false)
   let history = useHistory();
 
   useEffect(() => {
     if (localStorage.id) {     
       userService.getOne(localStorage.id)
-      .then(u => setUser(u))
+      .then(u => {
+        console.log(u);
+        setUser(u)
+      })
     }
-  },[])
+  },[isLogin])
 
   const  loginUser = (newUser) => {
-    setUser(newUser);
     localStorage.setItem('username', newUser.username)
-    localStorage.setItem('id', newUser._id)
+    localStorage.setItem('id', newUser._id);
+    setIsLogin(true);
   }
 
   const logoutUser = () => {
 
-    setUser(null);
     localStorage.removeItem('username');
     localStorage.removeItem('id')
     history.push('/books')
+    setUser(null);
+    setIsLogin(false)
   }
 
   return (

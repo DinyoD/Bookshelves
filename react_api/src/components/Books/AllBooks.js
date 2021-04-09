@@ -6,7 +6,7 @@ import { booksGroup } from '../../data/data.json';
 import userContext from '../Contexts/UserContext';
 
 const AllBooks = ({clickBook, group}) => {
-    console.log(group);
+
     const [user] = useContext(userContext);
     const [books, setBooks] = useState([]);
 
@@ -18,11 +18,20 @@ const AllBooks = ({clickBook, group}) => {
                 break;
         
             case booksGroup.myBooks:
-                setBooks(user.ownedBooks)
+
+                let userBooksIdList = user.ownedBooks.map(x=> x._id)
+
+                booksService.getAll()
+                    .then(allBooks => setBooks(allBooks.filter(x => userBooksIdList.includes(x._id))));
+
                 break;
 
             case booksGroup.wishList:
-                setBooks(user.wishList)
+
+                let userWishedIdList = user.wishList.map(x=> x._id)
+
+                booksService.getAll()
+                    .then(allBooks => setBooks(allBooks.filter(x => userWishedIdList.includes(x._id))));
                 break;    
 
             default:

@@ -26,17 +26,17 @@ const BookDetails = ({match}) => {
     }, [book._id, user])
 
     const AddToOwned = () => {
-        usersService.addBookToOwnedList(book._id, user)
+        usersService.addBookToOwnedList(book, user)
         .then(updatedUser => {
             setOwned(true);
-            usersService.removeBookFromWishedList(book._id, updatedUser)
+            usersService.removeBookFromWishedList(book, updatedUser)
                 .then(() => {
                     setWished(false);
                     setUser(prevUser =>
                             ({
                                 ...prevUser, 
-                                ownedBooks: [...prevUser.ownedBooks, book._id], 
-                                wishList: [...prevUser.wishList.filter(x => x._id !== book._id && x !== book._id)]
+                                ownedBooks: [...prevUser.ownedBooks, book], 
+                                wishList: [...prevUser.wishList.filter(x => x._id !== book._id)]
                             })
                         )
             })
@@ -44,26 +44,26 @@ const BookDetails = ({match}) => {
     }
 
     const AddToWished = () => {
-        usersService.addBookToWishList(book._id, user)
+        usersService.addBookToWishList(book, user)
         .then(() => {
             setWished(true);
-            setUser(prevUser => ({...prevUser, wishList: [...prevUser.wishList, book._id]}));
+            setUser(prevUser => ({...prevUser, wishList: [...prevUser.wishList, book]}));
         })  
     }
 
     const RemoveFromOwned = () => {
-        usersService.removeBookFromOwnedList(book._id, user)
+        usersService.removeBookFromOwnedList(book, user)
         .then(() => {
             setOwned(false);
-            setUser(prevUser => ({...prevUser, ownedBooks: [...prevUser.ownedBooks.filter(x => x._id !== book._id && x !== book._id)]}))
+            setUser(prevUser => ({...prevUser, ownedBooks: [...prevUser.ownedBooks.filter(x => x._id !== book._id)] }))
         })
     }
 
     const RemoveFromWished = () => {
-        usersService.removeBookFromWishedList(book._id, user)
+        usersService.removeBookFromWishedList(book, user)
         .then(() => {
             setWished(false);
-            setUser(prevUser => ({...prevUser, wishList: [...prevUser.wishList.filter(x => x._id !== book._id && x !== book._id)]}))
+            setUser(prevUser => ({...prevUser, wishList: [...prevUser.wishList.filter(x => x._id !== book._id)]}))
         })
     }
 
