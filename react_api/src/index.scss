@@ -199,9 +199,10 @@ body{
   flex-direction: row;
   justify-content: space-around;
   margin-top: 20px;
+  margin-bottom: 10px;
   .book-details-aside{
     width: 300px;
-    height: 580px;
+    height: 600px;
     overflow: hidden;
     .book-details-cover{
       width: 300px;
@@ -217,10 +218,11 @@ body{
       display: flex;
       flex-direction: column;
       justify-content: space-around;
-      height: 100px;
+      height: 110px;
       padding-top: 10px;
       .action-link{
         text-decoration: none;
+        cursor: pointer;
         text-align: center;
         color: $color-primary;
         background-color: $color-secondary;
@@ -237,7 +239,6 @@ body{
     flex-direction: column;
 
     width: 900px;
-    height: 580px;
 
     padding-top: 30px;
     .details-title-container{
@@ -272,7 +273,7 @@ body{
     }
     .details-comments{
       justify-self: center;
-      margin-top: auto;
+      margin-top: 30px;
       margin-bottom: 20px;
       .btn{
         margin-left: 465px;
@@ -281,7 +282,30 @@ body{
       }
     }
   }
-  
+  .book-comments-container{
+    padding-right: 155px;
+    .comment-card{
+      
+      margin-bottom: 35px;
+      padding: 1.5rem 2rem;
+      position: relative;
+      border: 1px solid$color-secondary;
+      border-radius: 10px;
+      color: $color-secondary;
+    }
+    .comment-card-text{     
+      font-weight: bold;
+      font-size: 18px;
+    }
+    
+    .comment-card-name{
+      position: absolute;
+      bottom: -25px;
+      right: 10px;
+      letter-spacing: 0.5px;
+      color: $color-secondary;      
+    }
+  }
 }
 
 .home-links-container{

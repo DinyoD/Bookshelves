@@ -2,6 +2,7 @@ import { useState, useEffect, useContext} from 'react';
 import { FaRegCheckCircle} from 'react-icons/fa';
 
 import CreateComment from '../Comment/CreateComment';
+import BookComments from '../Comment/BookComments';
 
 import booksService from '../../services/booksService';
 import usersService from '../../services/usersService';
@@ -11,18 +12,22 @@ const BookDetails = ({match}) => {
 
     const [user, setUser] = useContext(UserContext);
 
-    const [book, setBook ] = useState({})
-    const [owned, setOwned] = useState(false)
-    const [wished, setWished] = useState(false)
+    const [book, setBook ] = useState({});
+    const [owned, setOwned] = useState(false);
+    const [wished, setWished] = useState(false);
+    const [hasComments, setHasComments] = useState(false);
 
     useEffect(()=> {
         booksService.getOne(match.params.id)
-            .then( b => setBook(b))
+            .then( b =>{ 
+                setBook(b);
+            })
     },[]);
 
     useEffect(() => {
         setOwned(user?.ownedBooks?.some( x=> x._id === book._id || x === book._id ));
-        setWished(user?.wishList?.some( x=> x._id === book._id || x === book._id))
+        setWished(user?.wishList?.some( x=> x._id === book._id || x === book._id));
+        setHasComments(book?.comments?.length > 0)
     }, [book])
 
     const AddToOwned = async () => {
@@ -66,7 +71,11 @@ const BookDetails = ({match}) => {
     }
 
     const addComment = (comment) => {
-
+        setBook(prev => ({
+            ...prev,
+            comments: [...prev.comments, comment]
+        }));
+        setHasComments(true);
     }
 
     return (
@@ -105,6 +114,11 @@ const BookDetails = ({match}) => {
                 <div className='details-comments'>
                     <CreateComment book={book} addComment={addComment}/>              
                 </div>
+                {hasComments
+
+                    ? <BookComments comments={book.comments}/>
+                    : <div>This book has no comments yet.</div>
+                }
             </div>
             
         </div>
