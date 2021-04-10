@@ -12,7 +12,7 @@ const connect = function(path, app){
     router.use('/auth', authRouter);
     router.use('/users', usersRouter);
     router.use('/books', booksRouter);
-    router.use('/reviews', commentsRouter);
+    router.use('/comments', commentsRouter);
     router.use('/authors', authorsRouter)
 
     app.use(path, router);

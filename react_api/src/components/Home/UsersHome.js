@@ -34,6 +34,7 @@ const UsersHome = () => {
             <Route path="/books/wishlist" render={(props) => <AllBooks {...props} group={booksGroup.wishList} clickBook={(id) => getBookDetails(id)}/>}/>
             <Route path='/books/create' component={CreateBook}/>
             <Route path='/books/details/:id' component={BookDetails} />
+            <Route path='/books/:id/comments' render={()=><h2>Comments</h2>} />
         </>
     )
 }

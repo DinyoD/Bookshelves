@@ -65,6 +65,10 @@ const BookDetails = ({match}) => {
             })
     }
 
+    const addComment = (comment) => {
+
+    }
+
     return (
         <div className='book-details-container'>
 
@@ -99,7 +103,7 @@ const BookDetails = ({match}) => {
                 <p className="details-info">published: {book.year}</p>
                 <div className='details-info'>genre: {book.genre}</div>
                 <div className='details-comments'>
-                    <CreateComment />              
+                    <CreateComment book={book} addComment={addComment}/>              
                 </div>
             </div>
             
