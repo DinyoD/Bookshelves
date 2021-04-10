@@ -47,7 +47,7 @@ const userService = {
         }
     },
 
-    addBookToWishList : async(book, user) => {
+    addBookToWishList: async(book, user) => {
 
         try {
             let currentUrl = serverUrl + '/' + user._id;
@@ -72,7 +72,7 @@ const userService = {
 
     removeBookFromWishedList: async(book, user) => {
         try {
-            console.log(`user-${user}`);
+            console.log(user);
             let currentUrl = serverUrl + '/' + user._id;
             const res = await fetch(
                 currentUrl,
@@ -81,12 +81,10 @@ const userService = {
                     headers: {
                         'Content-Type': 'application/json'                       
                     },
-                    body: JSON.stringify( {...user, wishList: [...user.wishList.filter(x=> x._id !== book._id)] } )
+                    body: JSON.stringify( {...user, wishList: [...user.wishList.filter(x=> x._id !== book._id && x !== book._id)] } )
                 }
             )
-            let u = await res.json();
-            console.log(u);
-            return u;
+            return await res.json();
              
         } catch (error) {
             console.log(error);
