@@ -15,7 +15,7 @@ const CreateComment = ({book, addComment}) => {
         e.preventDefault();
 
         let comment ={
-            user: user._id,
+            user: user,
             text:  e.target.comment.value
         }
 

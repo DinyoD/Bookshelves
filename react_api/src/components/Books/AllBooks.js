@@ -40,7 +40,9 @@ const AllBooks = ({clickBook, group}) => {
     },[])
 
     const clickHandler =(id) => {
-        clickBook(id);
+        if(user){
+            clickBook(id)
+        }
     }
 
     return (
@@ -54,7 +56,7 @@ const AllBooks = ({clickBook, group}) => {
                     genre={x.genre} 
                     coverUrl={x.coverUrl} 
                     year={x.year}
-                    click={(id) => clickHandler(id)}
+                    click={(id) => clickHandler(id)} 
                     />))}
         </div>
     )

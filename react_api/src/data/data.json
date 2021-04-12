@@ -33,5 +33,10 @@
         "all": "all",
         "myBooks": "myBooks",
         "wishList": "wishList"
+    },
+    "dateOptions": {
+        "UTC": "UTC+0200",
+        "hour": "numeric",
+        "minute": "numeric"
     }
 }
