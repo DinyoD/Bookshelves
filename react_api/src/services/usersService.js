@@ -111,6 +111,28 @@ const userService = {
         } catch (error) {
             console.log(error);
         }
+    },
+
+    addComment: async(comment, user) => {
+        try {
+            let currentUrl = serverUrl + '/' + user._id;
+    
+            const res = await fetch(
+                currentUrl,
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'                       
+                    },
+                    body: JSON.stringify({...user, comments: [ ...user.comments, comment]})
+                }
+            )
+    
+            return await res.json();
+            
+        } catch (error) {
+            console.log(error);
+        }
     }
 
 } 

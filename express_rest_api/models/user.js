@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
     wishList: [{
         type: mongoose.Types.ObjectId,
         ref: 'Book'
+    }],
+    comments: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'Comment'
     }]
 })
 

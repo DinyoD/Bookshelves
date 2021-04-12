@@ -3,6 +3,7 @@ import { useContext } from 'react';
 
 import commentsService from '../../services/commentsService';
 import booksService from '../../services/booksService';
+import userService from '../../services/usersService';
 
 import userContext from '../Contexts/UserContext';
 
@@ -15,12 +16,13 @@ const CreateComment = ({book, addComment}) => {
         e.preventDefault();
 
         let comment ={
-            user: user,
+            user: user.username,
             text:  e.target.comment.value
         }
 
         let createdComment = await commentsService.create(comment);
         await booksService.addComment(book, createdComment);
+        await userService.addComment(createdComment, user)
         e.target.comment.value= '';
         // history.push(`/books/${book._id}/comments`);
         addComment(createdComment)
