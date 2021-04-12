@@ -1,12 +1,16 @@
 import { useContext } from 'react';
-import { Route, Redirect} from 'react-router-dom';
+import { Route, Redirect, Switch} from 'react-router-dom';
 
 import Register from '../AuthForms/Register';
 import Login from '../AuthForms/Login';
 import PublicHome from '../Home/PublicHome';
 import UsersHome from '../Home/UsersHome';
+import AllBooks from '../Books/AllBooks';
+import NoContent from '../Shared/NoContent';
 
 import UserContext from '../Contexts/UserContext';
+
+//TODO SWitch
 
 function Body({loginUser}){
 
@@ -15,16 +19,25 @@ function Body({loginUser}){
     return (
         <div className='body-container'>
 
-            <Route exact path='/' render={() => (<Redirect to='/books' />)} />
+            <Switch>
 
-            <Route path='/register' render={(props) => <Register {...props} loginUser={loginUser}/>}/>
- 
-            <Route path='/login'  render={(props) => <Login {...props} loginUser={loginUser}/>}/>
+                <Route exact path='/' render={() => (<Redirect to='/books' />)} />
 
-            { user
-                ? <Route path='/books' component={UsersHome}/>
-                : <Route path='/books' component={PublicHome}/>
-            }
+                <Route path='/register' render={(props) => <Register {...props} loginUser={loginUser}/>}/>
+    
+                <Route path='/login'  render={(props) => <Login {...props} loginUser={loginUser}/>}/>
+
+                <Route exact path='/books/no-content' component={NoContent} />
+
+                <Route path='/books/:categorie/:filter' component={AllBooks} />
+
+                { user
+                    ? <Route path='/books' component={UsersHome}/>
+                    : <Route path='/books' component={PublicHome}/>
+                }
+
+
+            </Switch>
 
         </div>
     )

@@ -37,5 +37,11 @@
         "UTC": "UTC+0200",
         "hour": "numeric",
         "minute": "numeric"
+    }, 
+    "bookObjectKeys": {
+        "author" : "author",
+        "genre": "genre",
+        "year": "year",
+        "language": "language"
     }
 }

@@ -8,12 +8,12 @@ const Dropdown = ({name, data}) => {
 
     useEffect(()=>{
         setCollection([name, ...data])
-    },[data])
+    },[data, name])
 
     const ChangeValueHandler = (e) => {
         let currValue = e.target.value;
         if (currValue !== name) {
-            history.push(`/${name.toLowerCase()}/${currValue.toLowerCase()}`);
+            history.push(`/books/${name.toLowerCase()}/${currValue.toLowerCase()}`);
             e.target.value = name;
         }
     }
