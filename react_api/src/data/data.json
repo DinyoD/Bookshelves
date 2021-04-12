@@ -1,6 +1,5 @@
 {
     "genres": [
-        "-- select genre --",
         "Fantasy",
         "Adventure",
         "Romance",
@@ -9,7 +8,7 @@
         "Horror",
         "Thriller",
         "Paranormal",
-        "Historical fiction",
+        "Historical Fiction",
         "Science Fiction",
         "Memoir", 
         "Cooking",

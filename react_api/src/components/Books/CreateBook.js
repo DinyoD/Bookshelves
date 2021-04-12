@@ -6,14 +6,18 @@ import bookService from '../../services/booksService';
 import CreateAuthor from '../Author/CreateAuthor';
 
 const CreateBook = ({history}) => {
+
     const [authors, setAuthors] = useState([]);
-    const [newAuthor, setNewAuthor] = useState(false);
-    
-    const [author, setAuthor ] = useState({})
+    const [newAuthor, setNewAuthor] = useState(false);   
+    const [author, setAuthor ] = useState({});
+    const [genres, setGenres] = useState([]);
+    const [language, SetLanguage] = useState([]);
 
     useEffect(() => {
         authorsService.getAll()
-            .then(all => setAuthors([{_id: 0, name: data.authorInput.defautValue}, {_id: 1,name: data.authorInput.addAuthorValue}, ...all]))
+            .then(all => setAuthors([{_id: 0, name: data.authorInput.defautValue}, {_id: 1,name: data.authorInput.addAuthorValue}, ...all]));
+        setGenres(['-- select genre --', ...data.genres]);
+        SetLanguage(['-- select language --', ...data.language])
     },[])
 
     const submitHandler = async(e) => {
@@ -72,15 +76,15 @@ const CreateBook = ({history}) => {
 
                 <div className='form-control'>
                     <label htmlFor='genre'>Genre:</label>
-                    <select className='form-input-book' type="text" id='genre' name='genre' >
-                        {data.genres.map((x , index) => (<option key={index} className='form-option' value={x}>{x}</option>))}
+                    <select className='form-input-book' type="text" id='genre' name='genre' defaultValue='genre'>
+                        {genres.map((x, index) => (<option key={index} className='form-option' value={x}>{x}</option>))}
                     </select>
                 </div>
 
                 <div className='form-control'>
                     <label htmlFor='language'>Language:</label>
                     <select className='form-input-book' type="text" id='language' name='language' >
-                        {data.language.map((x , index) => (<option key={index} className='form-option' value={x}>{x}</option>))}
+                        {language.map((x , index) => (<option key={index} className='form-option' value={x}>{x}</option>))}
                     </select>
                 </div>
 
