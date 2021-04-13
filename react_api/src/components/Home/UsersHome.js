@@ -32,8 +32,9 @@ const UsersHome = () => {
             <Route exact path="/books"  render={(props) => <AllBooks {...props} group={booksGroup.all} clickBook={(id) => getBookDetails(id)}/>}/>
             <Route path="/books/mybooks" render={(props) => <AllBooks {...props} group={booksGroup.myBooks} clickBook={(id) => getBookDetails(id)}/>}/>
             <Route path="/books/wishlist" render={(props) => <AllBooks {...props} group={booksGroup.wishList} clickBook={(id) => getBookDetails(id)}/>}/>
-            <Route path='/books/create' component={CreateBook}/>
+            <Route path='/books/create' render={(props) => <CreateBook {...props} update={false}/>}/>
             <Route path='/books/details/:id' component={BookDetails} />
+            <Route path='/books/update/:id' render={(props) => <CreateBook {...props} update={true}/>}/>
             <Route path='/books/:id/comments' render={()=><h2>Comments</h2>} />
         </>
     )

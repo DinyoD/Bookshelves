@@ -27,7 +27,7 @@ function Body({loginUser}){
     
                 <Route path='/login'  render={(props) => <Login {...props} loginUser={loginUser}/>}/>
 
-                <Route exact path='/books/no-content' component={NoContent} />
+                <Route path='/no-content' component={NoContent} />
 
 
                 { user

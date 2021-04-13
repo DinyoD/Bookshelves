@@ -1,6 +1,6 @@
 import authorsService from '../../services/authorsService';
 
-const CreateAuthor = ({createAuthor}) => {
+const CreateAuthorForm = ({createAuthor}) => {
 
     const submitHandler = async(e)=> {
         e.preventDefault();
@@ -41,4 +41,4 @@ const CreateAuthor = ({createAuthor}) => {
     )
 }
 
-export default CreateAuthor;
+export default CreateAuthorForm;

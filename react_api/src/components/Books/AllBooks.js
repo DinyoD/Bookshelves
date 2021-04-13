@@ -53,7 +53,7 @@ const AllBooks = ({clickBook, group, match}) => {
         const bookCat = Object.keys(bookObjectKeys)
 
         if (!bookCat.includes(categorie)) {
-            history.push('/books/no-content')
+            history.push('/no-content')
         }
 
         if (categorie === 'author') {

@@ -1,23 +1,37 @@
 import {useState, useEffect} from 'react'
 
-import data from '../../data/data';
+import CreateAuthorForm from '../Author/CreateAuthorForm';
+
 import authorsService from '../../services/authorsService';
-import bookService from '../../services/booksService';
-import CreateAuthor from '../Author/CreateAuthor';
+import booksService from '../../services/booksService';
 
-const CreateBook = ({history}) => {
+import data from '../../data/data';
 
-    const [authors, setAuthors] = useState([]);
+const CreateBook = ({history, match, update}) => {
+
     const [newAuthor, setNewAuthor] = useState(false);   
     const [author, setAuthor ] = useState({});
+    
+    const [authors, setAuthors] = useState([]);
     const [genres, setGenres] = useState([]);
-    const [language, SetLanguage] = useState([]);
+    const [language, setLanguage] = useState([]);
+
+    const [book, setBook] = useState({});
 
     useEffect(() => {
         authorsService.getAll()
             .then(all => setAuthors([{_id: 0, name: data.authorInput.defautValue}, {_id: 1,name: data.authorInput.addAuthorValue}, ...all]));
+
         setGenres(['-- select genre --', ...data.genres]);
-        SetLanguage(['-- select language --', ...data.language])
+        setLanguage(['-- select language --', ...data.language])
+
+        console.log(update);
+        console.log(match.params.id);
+
+        if (update) {
+            booksService.getOne(match.params.id)
+                .then( b => setBook(b));
+        }
     },[])
 
     const submitHandler = async(e) => {
@@ -33,7 +47,7 @@ const CreateBook = ({history}) => {
             author: author          
         }
         
-        let createdBook = await bookService.create(book)
+        let createdBook = await booksService.create(book)
         
         history.push(`/books/details/${createdBook._id}`)
     }
@@ -64,48 +78,49 @@ const CreateBook = ({history}) => {
                         className='form-input-book'  
                         id='author' 
                         name='author'
-                        onChange={handleChange} >
+                        onChange={handleChange} 
+                        value ={ update ? `${book?.author?.name}` : '' }>
                             {authors.map(x => (<option key={x._id} className='form-option' value={x.name}>{x.name}</option>))}
                     </select>
                 </div>
 
                 <div className='form-control'>
                     <label htmlFor='title'>Book title:</label>
-                    <input className='form-input-book' type="text" id='title' name='title' placeholder=''/>
+                    <input className='form-input-book' type="text" id='title' name='title' value ={ update ? `${book.title}` : '' } placeholder=''/>
                 </div>
 
                 <div className='form-control'>
                     <label htmlFor='genre'>Genre:</label>
-                    <select className='form-input-book' type="text" id='genre' name='genre' defaultValue='genre'>
+                    <select className='form-input-book' type="text" id='genre' name='genre' value ={ update ? `${book.genre}` : '' }>
                         {genres.map((x, index) => (<option key={index} className='form-option' value={x}>{x}</option>))}
                     </select>
                 </div>
 
                 <div className='form-control'>
                     <label htmlFor='language'>Language:</label>
-                    <select className='form-input-book' type="text" id='language' name='language' >
+                    <select className='form-input-book' type="text" id='language' name='language' value ={ update ? `${book.language}` : '' }>
                         {language.map((x , index) => (<option key={index} className='form-option' value={x}>{x}</option>))}
                     </select>
                 </div>
 
                 <div className='form-control'>
                     <label htmlFor='year'>Publication year:</label>
-                    <input className='form-input-book' type="number" id='year' name='year' placeholder=''/>
+                    <input className='form-input-book' type="number" id='year' name='year' value ={ update ? `${book?.year}` : '' } placeholder=''/>
                 </div>
 
                 <div className='form-control'>
                     <label htmlFor='coverUrl'>Book cover:</label>
-                    <input className='form-input-book' type="text" id='coverUrl' name='coverUrl' placeholder=''/>
+                    <input className='form-input-book' type="text" id='coverUrl' name='coverUrl' value ={ update ? `${book?.coverUrl}` : '' } placeholder=''/>
                 </div>
 
                 <div className='form-control'>
                     <label htmlFor='description'>Description:</label>
-                    <textarea className='form-textarea-book' type="text" id='description' name='description' placeholder=''/>
+                    <textarea className='form-textarea-book' type="text" id='description' name='description' value ={ update ? `${book?.description}` : '' } placeholder=''/>
                 </div>
 
                 <input type="submit" className='btn form-btn' value='Submit Book'/>
             </form>
-            {newAuthor && <CreateAuthor  createAuthor={createAuthor}/>}
+            {newAuthor && <CreateAuthorForm  createAuthor={createAuthor}/>}
         </div>
 
     )

@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext} from 'react';
+import { Link } from 'react-router-dom';
 import { FaRegCheckCircle} from 'react-icons/fa';
 
 import CreateComment from '../Comment/CreateComment';
@@ -96,7 +97,11 @@ const BookDetails = ({match}) => {
                     {!wished && !owned
                         ? <button className='action-link' to='#' onClick={AddToWished}>Add to Wish list</button>
                         : ''
-                    }   
+                    }
+                    {owned
+                        ? <Link className='action-link' to={`/books/update/${book._id}`} >Update Book</Link>
+                        : ''
+                    }
                 </div>
             </div>
 
