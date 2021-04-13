@@ -15,40 +15,33 @@ const AllBooks = ({clickBook, group, match}) => {
     const history = useHistory();
 
     useEffect(() => {
-        switch (group) {        
-            case booksGroup.myBooks:
+        console.log(group);
 
-                let userBooksIdList = user.ownedBooks.map(x=> x._id)
-
-                booksService.getAll()
-                    .then(allBooks => setBooks(allBooks.filter(x => userBooksIdList.includes(x._id))));
-
+        if (group) {
+            switch (group) {        
+                case booksGroup.myBooks:
+                    let userBooksIdList = user.ownedBooks.map(x=> x._id)
+                    booksService.getAll()
+                            .then(allBooks => setBooks(allBooks.filter(x=>userBooksIdList.includes(x._id))));
                 break;
-
-            case booksGroup.wishList:
-
-                let userWishedIdList = user.wishList.map(x=> x._id)
-
-                booksService.getAll()
-                    .then(allBooks => setBooks(allBooks.filter(x => userWishedIdList.includes(x._id))));
+                    
+                case booksGroup.wishList:
+                    let userWishedIdList = user.wishList.map(x=> x._id)
+                    booksService.getAll()
+                        .then(allBooks => setBooks(allBooks.filter(x => userWishedIdList.includes(x._id))));
                 break;    
-
-            default:
-                booksService.getAll()
-                    .then(allBooks => setBooks(allBooks));
+                        
+                default:
+                    booksService.getAll()
+                        .then(allBooks => setBooks(allBooks));
                 break;
-        };
-
-        if (match  && Object.keys(match.params).length > 0) {           
+            };
+        }else if (match  && Object.keys(match.params).length > 0) {       
             filterBooks(match);
+            console.log(2);
         }
     },[match])
 
-    const clickHandler =(id) => {
-        if(user){
-            clickBook(id)
-        }
-    }
 
     const filterBooks = (match)=> {
 
@@ -63,22 +56,22 @@ const AllBooks = ({clickBook, group, match}) => {
             history.push('/books/no-content')
         }
 
-        setBooks(prev => ([...Filter(prev, categorie, value)]))
-
-        console.log(bookCat);
-    }
-
-    const Filter = (prev, categorie, value) => {
-        let result;
         if (categorie === 'author') {
-            result = prev.filter(x=>x.author.name.toLowerCase() === value);
+            booksService.getAll()
+                        .then(allBooks => setBooks(allBooks.filter(x=>x.author.name.toLowerCase() === value)));
+            // setBooks(prev => prev.filter(x=>x.author.name.toLowerCase() === value))
         }else if(categorie === 'genre'){
-            result = prev.filter(x=>x.genre.toLowerCase() === value );
+            booksService.getAll()
+                        .then(allBooks => setBooks(allBooks.filter(x=>x.genre.toLowerCase() === value)));
+            // setBooks(prev => prev.filter(x=>x.genre.toLowerCase() === value));
         }
-        console.log(result);
-        return result;
     }
 
+    const clickBookHandler =(id) => {
+        if (user) {
+            history.push(`/books/details/${id}`)
+        }
+    }
     return (
         <div className='books-container'>
                 {books.map(x => (
@@ -90,7 +83,7 @@ const AllBooks = ({clickBook, group, match}) => {
                     genre={x.genre} 
                     coverUrl={x.coverUrl} 
                     year={x.year}
-                    click={(id) => clickHandler(id)} 
+                    clicked={(id) => clickBookHandler(id)} 
                     />))}
         </div>
     )

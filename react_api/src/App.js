@@ -11,7 +11,7 @@ import userService from './services/usersService';
 function App() {
 
   const [user, setUser] = useState(null);
-  const[isLogin, setIsLogin] = useState(false)
+  const [isLogin, setIsLogin] = useState(false)
   let history = useHistory();
 
   useEffect(() => {

@@ -29,13 +29,13 @@ function Body({loginUser}){
 
                 <Route exact path='/books/no-content' component={NoContent} />
 
-                <Route path='/books/:categorie/:filter' component={AllBooks} />
 
                 { user
                     ? <Route path='/books' component={UsersHome}/>
                     : <Route path='/books' component={PublicHome}/>
                 }
 
+                <Route path='/filter/:categorie/:filter' component={AllBooks} />
 
             </Switch>
 

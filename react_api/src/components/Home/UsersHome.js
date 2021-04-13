@@ -5,7 +5,6 @@ import CreateBook from '../Books/CreateBook';
 import AllBooks from '../Books/AllBooks'
 import BookDetails from '../Books/BookDetails';
 
-
 import UserContext from '../Contexts/UserContext';
 
 import { booksGroup } from '../../data/data.json';
@@ -15,6 +14,7 @@ const UsersHome = () => {
     const [user] = useContext(UserContext);
 
     const history = useHistory();
+
 
     const getBookDetails = (id) => {
         if (user) {

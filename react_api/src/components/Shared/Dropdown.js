@@ -13,7 +13,7 @@ const Dropdown = ({name, data}) => {
     const ChangeValueHandler = (e) => {
         let currValue = e.target.value;
         if (currValue !== name) {
-            history.push(`/books/${name.toLowerCase()}/${currValue.toLowerCase()}`);
+            history.push(`/filter/${name.toLowerCase()}/${currValue.toLowerCase()}`);
             e.target.value = name;
         }
     }
