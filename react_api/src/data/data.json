@@ -28,6 +28,12 @@
         "defautValue": "-- select author --",
         "addAuthorValue": "-- ADD NEW AUTHOR"
     },
+    "languageInput":{
+        "defautValue": "-- select language --"
+    },
+    "genreInput":{
+        "defautValue": "-- select genre --"
+    },
     "booksGroup": {
         "all": "all",
         "myBooks": "myBooks",

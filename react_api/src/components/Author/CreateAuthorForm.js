@@ -19,6 +19,7 @@ const CreateAuthorForm = ({createAuthor}) => {
     return(
 
         <form className='form' onSubmit={submitHandler}>
+            <h2 className="form-control">Create New Book's Author:</h2>
             <div className="form-control">
                 <label htmlFor="name">Aurthor name: </label>
                 <input className='form-input-book' type="text" id='name' name='name'/>
@@ -34,7 +35,7 @@ const CreateAuthorForm = ({createAuthor}) => {
                 <input className='form-input-book' type="number" id='yearOfBirth' name='yearOfBirth'/>
             </div>
 
-            <input type="submit" className='btn form-btn' value='Submit Author'/>
+            <input type="submit" className='btn form-btn' value='Submit New Author'/>
 
         </form>
 

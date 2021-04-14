@@ -16,11 +16,13 @@ const CreateBook = ({history, match, update}) => {
     const [genresList, setGenresList] = useState([]);
     const [languagesList, setLanguagesList] = useState([]);
 
+    const [error, setError] = useState(null);
+
     const [book, setBook] = useState({
         title: '',
         author: { name: data.authorInput.defautValue},
-        genre: '-- select genre --',
-        language: '-- select language --',
+        genre: data.genreInput.defautValue,
+        language: data.languageInput.defautValue,
         year: '',
         coverUrl: '',
         description: ''
@@ -29,10 +31,10 @@ const CreateBook = ({history, match, update}) => {
     useEffect(() => {
 
         authorsService.getAll()
-            .then(all => setAuthorsList([{_id: 0, name: data.authorInput.defautValue}, {_id: 1,name: data.authorInput.addAuthorValue}, ...all]));
+            .then(all => setAuthorsList([{_id: 1, name: data.authorInput.defautValue}, {_id: 2,name: data.authorInput.addAuthorValue}, ...all]));
 
-        setGenresList(['-- select genre --', ...data.genres]);
-        setLanguagesList(['-- select language --', ...data.language])
+        setGenresList([data.genreInput.defautValue, ...data.genres]);
+        setLanguagesList([data.languageInput.defautValue, ...data.language])
 
         if (update) {
             booksService.getOne(match.params.id)
@@ -59,7 +61,9 @@ const CreateBook = ({history, match, update}) => {
         console.log(e.target.value);
         if (e.target.value === data.authorInput.addAuthorValue) {
             setNewAuthor(true)
+            setBook(prev => ({...prev, author: { name: data.authorInput.addAuthorValue},}))
         }else{
+            setNewAuthor(false)
             let author = authorsList.find(x=>x.name === e.target.value);
             setBook(b => ({
                 ...b,
@@ -70,6 +74,9 @@ const CreateBook = ({history, match, update}) => {
 
     const createAuthor = (author) => {
         setNewAuthor(false);
+
+        setAuthorsList(prev => ([{_id: 0,name: author.name}, ...prev]))
+
         setBook(b => ({
             ...b,
             author: author
@@ -77,12 +84,38 @@ const CreateBook = ({history, match, update}) => {
     }
 
     const changeValue = (e) => {
+
+        if(ValidInput(e)) {
+            setError(null)
+        }
+
         setBook(b => ({
             ...b,
             [e.target.name]: e.target.value
         }))
     }
 
+    const ValidInput = (e) => {
+        let result = true;
+        if (e.target.value === data.authorInput.defautValue 
+            || e.target.value === data.genreInput.defautValue 
+            || e.target.value === data.languageInput.defautValue ) {
+            
+            setError({ input: e.target.name, value: 'Is required!'})
+            result = false;
+        }
+        if (e.target.value === '') {
+            setError({ input: e.target.name, value: 'Is required!'})
+            result = false;
+        }
+        if (e.target.type === 'number' && (e.target.value < 0 || e.target.value > new Date().getFullYear())) {
+            setError({ input: e.target.name, value: 'Year must be below current year!'})
+            result = false;
+        }
+
+        return result;
+    }
+    
     const AddAdminComment = async (book, update) =>{
 
         let currenUser = localStorage.username;
@@ -148,11 +181,14 @@ const CreateBook = ({history, match, update}) => {
                 </div>
 
                 <input type="submit" className='btn form-btn' value={update ? 'Edit Book Info' : 'Submit Book'}/>
+
+                {error ? <p>{`${error.input} - ${error.value}`}</p> : ''}
             </form>
 
             {newAuthor && <CreateAuthorForm  createAuthor={createAuthor}/>}
         </div>
     )
 }
+
 
 export default CreateBook;
