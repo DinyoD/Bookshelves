@@ -231,8 +231,9 @@ body{
       display: flex;
       flex-direction: column;
       justify-content: space-around;
-      height: 110px;
+      height: 150px;
       padding-top: 10px;
+
       .action-link{
         text-decoration: none;
         cursor: pointer;
@@ -241,6 +242,7 @@ body{
         background-color: $color-secondary;
         border-radius: 5px;
         padding: 10px;
+        margin-top: 10px
       }
       .remove{
         background-color: $color-attention;
@@ -376,4 +378,10 @@ body{
     background-color: $color-secondary;
     border-radius: 10px;
   }
+}
+
+.no-content{
+  padding: 100px;
+  color: $color_alert;
+  text-align: center;
 }

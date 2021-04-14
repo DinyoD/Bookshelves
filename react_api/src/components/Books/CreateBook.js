@@ -16,7 +16,15 @@ const CreateBook = ({history, match, update}) => {
     const [genresList, setGenresList] = useState([]);
     const [languagesList, setLanguagesList] = useState([]);
 
-    const [book, setBook] = useState({});
+    const [book, setBook] = useState({
+        title: '',
+        author: { name: data.authorInput.defautValue},
+        genre: '-- select genre --',
+        language: '-- select language --',
+        year: '',
+        coverUrl: '',
+        description: ''
+    });
 
     useEffect(() => {
 
@@ -31,16 +39,6 @@ const CreateBook = ({history, match, update}) => {
                 .then( b => {
                     setBook(b);
                 });
-        }else{
-            setBook({
-                title: '',
-                author: data.authorInput.defautValue,
-                genre: '-- select genre --',
-                language: '-- select language --',
-                year: '',
-                coverUrl: '',
-                description: ''
-            })
         }
     },[])
 
@@ -102,7 +100,6 @@ const CreateBook = ({history, match, update}) => {
     return (
         <div className='form-container'>
             <form className='form' onSubmit={submitHandler}>
-                {/* <div>{error.error ? error.error : ''}</div> */}
 
                 <div className='form-control'>
                     <label htmlFor='author'>Author:</label>

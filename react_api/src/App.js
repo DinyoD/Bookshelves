@@ -27,6 +27,7 @@ function App() {
   const  loginUser = (newUser) => {
     localStorage.setItem('username', newUser.username)
     localStorage.setItem('id', newUser._id);
+
     setIsLogin(true);
   }
 
@@ -34,7 +35,7 @@ function App() {
 
     localStorage.removeItem('username');
     localStorage.removeItem('id')
-    history.push('/books')
+    history.push('/books');
     setUser(null);
     setIsLogin(false)
   }

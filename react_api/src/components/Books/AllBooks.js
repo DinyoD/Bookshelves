@@ -15,9 +15,7 @@ const AllBooks = ({clickBook, group, match}) => {
     const history = useHistory();
 
     useEffect(() => {
-        console.log(group);
-
-        if (group) {
+      if (group) {
             switch (group) {        
                 case booksGroup.myBooks:
                     let userBooksIdList = user.ownedBooks.map(x=> x._id)

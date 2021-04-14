@@ -98,7 +98,7 @@ const BookDetails = ({match}) => {
                         ? <button className='action-link' to='#' onClick={AddToWished}>Add to Wish list</button>
                         : ''
                     }
-                    {owned
+                    {owned || wished
                         ? <Link className='action-link' to={`/books/update/${book._id}`} >Edit Book Info</Link>
                         : ''
                     }
