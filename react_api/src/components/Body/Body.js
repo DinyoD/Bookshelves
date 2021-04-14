@@ -7,6 +7,7 @@ import PublicHome from '../Home/PublicHome';
 import UsersHome from '../Home/UsersHome';
 import AllBooks from '../Books/AllBooks';
 import NoContent from '../Shared/NoContent';
+import UserComments from '../Comment/UserComments';
 
 import UserContext from '../Contexts/UserContext';
 
@@ -36,6 +37,8 @@ function Body({loginUser}){
                 }
 
                 <Route path='/filter/:categorie/:filter' component={AllBooks} />
+
+                <Route path='/comments/user' component={UserComments} />
 
             </Switch>
 

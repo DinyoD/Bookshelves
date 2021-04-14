@@ -5,6 +5,9 @@ const commentSchema = mongoose.Schema({
         type: String,
         require: true
     },
+    bookInfo: {
+        type: String,
+    },
     text: {
         type: String,
         require: true

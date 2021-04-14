@@ -111,7 +111,7 @@ body{
   display: flex;
   flex-direction: row;
   margin-left: auto;
-  padding: 20px;
+  padding: 10px;
 
 
   .form{
@@ -123,7 +123,7 @@ body{
     margin-left: 100px;
   }
   .form-control{
-    margin: 15px 0;
+    margin: 7.5px 0;
     display: flex;
     flex-direction: column;
   }
@@ -295,30 +295,64 @@ body{
       }
     }
   }
-  .book-comments-container{
-    padding-right: 155px;
-    .comment-card{
-      
-      margin-bottom: 35px;
-      padding: 1.5rem 2rem;
-      position: relative;
-      border: 1px solid$color-secondary;
-      border-radius: 10px;
+}
+
+.comments-container{
+  padding-right: 155px;
+
+  .comment-book-info{
+      text-align: center;
       color: $color-secondary;
-    }
-    .comment-card-text{     
-      font-weight: bold;
-      font-size: 18px;
-    }
-    
-    .comment-card-name{
+  }
+
+  .comment-card{   
+    position: relative;
+    margin-bottom: 35px;
+    padding: 1.5rem 2rem;
+    position: relative;
+    border: 1px solid$color-secondary;
+    border-radius: 10px;
+    color: $color-secondary;
+  }
+  .large{
+    margin-left: 20px;
+    margin-top: 60px;
+
+    .comment-card-btn{
       position: absolute;
-      bottom: -25px;
-      right: 10px;
-      letter-spacing: 0.5px;
-      color: $color-secondary;      
+      font-size: 36px;
+      bottom:  15px;
+      border-radius: 10px;
+      padding: 3px;
+      cursor: pointer;
+    }
+    .del{
+      right: -60px;
+      color: $color-alert;
+      background-color: $color-attention;
+      
+    }
+    .edit{
+      right: -110px;
+      color: $color-attention;
+      background-color: $color-alert;
     }
   }
+
+  .comment-card-text{     
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  .comment-card-name{
+    position: absolute;
+    bottom: -25px;
+    right: 10px;
+    letter-spacing: 0.5px;
+    color: $color-secondary;      
+  }
+
+
 }
 
 .home-links-container{

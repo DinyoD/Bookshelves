@@ -113,7 +113,7 @@ const userService = {
         }
     },
 
-    addComment: async(comment, user) => {
+    addComment: async(user, comment) => {
         try {
             let currentUrl = serverUrl + '/' + user._id;
     

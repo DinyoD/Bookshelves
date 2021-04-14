@@ -4,70 +4,102 @@ import CreateAuthorForm from '../Author/CreateAuthorForm';
 
 import authorsService from '../../services/authorsService';
 import booksService from '../../services/booksService';
+import commentsService from '../../services/commentsService';
 
 import data from '../../data/data';
 
 const CreateBook = ({history, match, update}) => {
 
     const [newAuthor, setNewAuthor] = useState(false);   
-    const [author, setAuthor ] = useState({});
     
-    const [authors, setAuthors] = useState([]);
-    const [genres, setGenres] = useState([]);
-    const [language, setLanguage] = useState([]);
+    const [authorsList, setAuthorsList] = useState([]);
+    const [genresList, setGenresList] = useState([]);
+    const [languagesList, setLanguagesList] = useState([]);
 
     const [book, setBook] = useState({});
 
     useEffect(() => {
+
         authorsService.getAll()
-            .then(all => setAuthors([{_id: 0, name: data.authorInput.defautValue}, {_id: 1,name: data.authorInput.addAuthorValue}, ...all]));
+            .then(all => setAuthorsList([{_id: 0, name: data.authorInput.defautValue}, {_id: 1,name: data.authorInput.addAuthorValue}, ...all]));
 
-        setGenres(['-- select genre --', ...data.genres]);
-        setLanguage(['-- select language --', ...data.language])
-
-        console.log(update);
-        console.log(match.params.id);
+        setGenresList(['-- select genre --', ...data.genres]);
+        setLanguagesList(['-- select language --', ...data.language])
 
         if (update) {
             booksService.getOne(match.params.id)
-                .then( b => setBook(b));
+                .then( b => {
+                    setBook(b);
+                });
+        }else{
+            setBook({
+                title: '',
+                author: data.authorInput.defautValue,
+                genre: '-- select genre --',
+                language: '-- select language --',
+                year: '',
+                coverUrl: '',
+                description: ''
+            })
         }
     },[])
 
     const submitHandler = async(e) => {
+
         e.preventDefault();
 
-        let book = {
-            title: e.target.title.value,
-            genre: e.target.genre.value,
-            year: e.target.year.value,
-            language: e.target.language.value,
-            description: e.target.description.value,
-            coverUrl: e.target.coverUrl.value,
-            author: author          
-        }
+        let newBook = await AddAdminComment(book, update)
+
+        console.log(newBook);
         
-        let createdBook = await booksService.create(book)
+        let createdBook = update ? await booksService.edit(newBook) : await booksService.create(newBook)
         
         history.push(`/books/details/${createdBook._id}`)
     }
 
-    const handleChange = (e) => {
+    const handleAuthorChange = (e) => {
         console.log(e.target.value);
         if (e.target.value === data.authorInput.addAuthorValue) {
             setNewAuthor(true)
-        }else(
-            setAuthor(authors.find(x=>x.name === e.target.value))
-        )
+        }else{
+            let author = authorsList.find(x=>x.name === e.target.value);
+            setBook(b => ({
+                ...b,
+                author: author
+            }))
+        }
     }
 
     const createAuthor = (author) => {
         setNewAuthor(false);
-        setAuthor(author)
+        setBook(b => ({
+            ...b,
+            author: author
+        }))
+    }
+
+    const changeValue = (e) => {
+        setBook(b => ({
+            ...b,
+            [e.target.name]: e.target.value
+        }))
+    }
+
+    const AddAdminComment = async (book, update) =>{
+
+        let currenUser = localStorage.username;
+
+        let comment = {
+            user: 'Admin',
+            text: `This book info is ${update ? 'edited' : 'created'} by ${currenUser}`
+        }
+
+        let createdComment = await commentsService.create(comment)
+        let newBook = update ? {...book, comments: [...book.comments, createdComment]} :   {...book, comments: [createdComment]}
+        return newBook;
     }
 
     return (
-
         <div className='form-container'>
             <form className='form' onSubmit={submitHandler}>
                 {/* <div>{error.error ? error.error : ''}</div> */}
@@ -78,51 +110,51 @@ const CreateBook = ({history, match, update}) => {
                         className='form-input-book'  
                         id='author' 
                         name='author'
-                        onChange={handleChange} 
-                        value ={ update ? `${book?.author?.name}` : '' }>
-                            {authors.map(x => (<option key={x._id} className='form-option' value={x.name}>{x.name}</option>))}
+                        onChange={handleAuthorChange} 
+                        value ={book?.author?.name}>
+                            {authorsList.map(x => (<option key={x._id} className='form-option' value={x.name}>{x.name}</option>))}
                     </select>
                 </div>
 
                 <div className='form-control'>
                     <label htmlFor='title'>Book title:</label>
-                    <input className='form-input-book' type="text" id='title' name='title' value ={ update ? `${book.title}` : '' } placeholder=''/>
+                    <input className='form-input-book' type="text" id='title' name='title' value ={book.title} placeholder='' onChange={changeValue}/>
                 </div>
 
                 <div className='form-control'>
                     <label htmlFor='genre'>Genre:</label>
-                    <select className='form-input-book' type="text" id='genre' name='genre' value ={ update ? `${book.genre}` : '' }>
-                        {genres.map((x, index) => (<option key={index} className='form-option' value={x}>{x}</option>))}
+                    <select className='form-input-book' type="text" id='genre' name='genre' value ={book.genre} onChange={changeValue}>
+                        {genresList.map((x, index) => (<option key={index} className='form-option' value={x}>{x}</option>))}
                     </select>
                 </div>
 
                 <div className='form-control'>
                     <label htmlFor='language'>Language:</label>
-                    <select className='form-input-book' type="text" id='language' name='language' value ={ update ? `${book.language}` : '' }>
-                        {language.map((x , index) => (<option key={index} className='form-option' value={x}>{x}</option>))}
+                    <select className='form-input-book' type="text" id='language' name='language' value ={book.language} onChange={changeValue}>
+                        {languagesList.map((x , index) => (<option key={index} className='form-option' value={x}>{x}</option>))}
                     </select>
                 </div>
 
                 <div className='form-control'>
                     <label htmlFor='year'>Publication year:</label>
-                    <input className='form-input-book' type="number" id='year' name='year' value ={ update ? `${book?.year}` : '' } placeholder=''/>
+                    <input className='form-input-book' type="number" id='year' name='year' value ={book?.year} placeholder='' onChange={changeValue}/>
                 </div>
 
                 <div className='form-control'>
                     <label htmlFor='coverUrl'>Book cover:</label>
-                    <input className='form-input-book' type="text" id='coverUrl' name='coverUrl' value ={ update ? `${book?.coverUrl}` : '' } placeholder=''/>
+                    <input className='form-input-book' type="text" id='coverUrl' name='coverUrl' value ={book?.coverUrl} placeholder='' onChange={changeValue}/>
                 </div>
 
                 <div className='form-control'>
                     <label htmlFor='description'>Description:</label>
-                    <textarea className='form-textarea-book' type="text" id='description' name='description' value ={ update ? `${book?.description}` : '' } placeholder=''/>
+                    <textarea className='form-textarea-book' type="text" id='description' name='description' value ={book?.description} placeholder='' onChange={changeValue}/>
                 </div>
 
-                <input type="submit" className='btn form-btn' value='Submit Book'/>
+                <input type="submit" className='btn form-btn' value={update ? 'Edit Book Info' : 'Submit Book'}/>
             </form>
+
             {newAuthor && <CreateAuthorForm  createAuthor={createAuthor}/>}
         </div>
-
     )
 }
 

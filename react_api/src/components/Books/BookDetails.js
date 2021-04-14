@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaRegCheckCircle} from 'react-icons/fa';
 
 import CreateComment from '../Comment/CreateComment';
-import BookComments from '../Comment/BookComments';
+import Comments from '../Comment/Comments';
 
 import booksService from '../../services/booksService';
 import usersService from '../../services/usersService';
@@ -99,7 +99,7 @@ const BookDetails = ({match}) => {
                         : ''
                     }
                     {owned
-                        ? <Link className='action-link' to={`/books/update/${book._id}`} >Update Book</Link>
+                        ? <Link className='action-link' to={`/books/update/${book._id}`} >Edit Book Info</Link>
                         : ''
                     }
                 </div>
@@ -121,7 +121,7 @@ const BookDetails = ({match}) => {
                 </div>
                 {hasComments
 
-                    ? <BookComments comments={book.comments}/>
+                    ? <Comments comments={book.comments} book={true}/>
                     : <div>This book has no comments yet.</div>
                 }
             </div>

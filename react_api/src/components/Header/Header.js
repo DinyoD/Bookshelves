@@ -37,6 +37,7 @@ const Header = ({ logoutUser }) => {
                       </Link>
                     : <Link className='header-nav-link' to='/register'>Register</Link>}
                 {user ? <Link className='header-nav-link' to='/books/create'>Add Book</Link> : ''}
+                {user ? <Link className='header-nav-link' to='/comments/user'>My Comments</Link> : ''}
                 {user
                     ? <Link className='header-nav-link' to='#' onClick={logoutUser}>Logout</Link> 
                     : <Link className='header-nav-link' to='/Login'>Login</Link>}

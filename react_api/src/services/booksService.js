@@ -69,8 +69,30 @@ const bookService = {
         } catch (error) {
             console.log(error);
         }
-    }
+    },
 
+    edit: async(book) => {
+        try {
+            let currentUrl = serverUrl + '/' + book._id;
+    
+            const res = await fetch(
+                currentUrl,
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'                       
+                    },
+                    body: JSON.stringify({...book})
+                }
+            )
+            let b = await res.json();
+            console.log(`addComment - ${b}`);
+            return b
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 export default bookService;
