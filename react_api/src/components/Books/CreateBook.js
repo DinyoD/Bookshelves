@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react'
+import { BiError } from 'react-icons/bi';
 
 import CreateAuthorForm from '../Author/CreateAuthorForm';
 
@@ -16,7 +17,7 @@ const CreateBook = ({history, match, update}) => {
     const [genresList, setGenresList] = useState([]);
     const [languagesList, setLanguagesList] = useState([]);
 
-    const [error, setError] = useState(null);
+    const [error, setError] = useState([]);
 
     const [book, setBook] = useState({
         title: '',
@@ -48,17 +49,21 @@ const CreateBook = ({history, match, update}) => {
 
         e.preventDefault();
 
-        let newBook = await AddAdminComment(book, update)
+        if (BookIsValid(book)) {
+            
+            let newBook = await AddAdminComment(book, update)
+    
+            console.log(newBook);
+            
+            let createdBook = update ? await booksService.edit(newBook) : await booksService.create(newBook)
+            
+            history.push(`/books/details/${createdBook._id}`)
+        }
 
-        console.log(newBook);
-        
-        let createdBook = update ? await booksService.edit(newBook) : await booksService.create(newBook)
-        
-        history.push(`/books/details/${createdBook._id}`)
     }
 
     const handleAuthorChange = (e) => {
-        console.log(e.target.value);
+
         if (e.target.value === data.authorInput.addAuthorValue) {
             setNewAuthor(true)
             setBook(prev => ({...prev, author: { name: data.authorInput.addAuthorValue},}))
@@ -84,36 +89,84 @@ const CreateBook = ({history, match, update}) => {
     }
 
     const changeValue = (e) => {
-
-        if(ValidInput(e)) {
-            setError(null)
-        }
-
+        
         setBook(b => ({
             ...b,
-            [e.target.name]: e.target.value
-        }))
+            [e.target.id]: e.target.value
+        }));
     }
 
-    const ValidInput = (e) => {
-        let result = true;
-        if (e.target.value === data.authorInput.defautValue 
+    const ValidateInput = (e) => {
+        if (e.target.type !== 'number' && (e.target.value === data.authorInput.defautValue 
             || e.target.value === data.genreInput.defautValue 
-            || e.target.value === data.languageInput.defautValue ) {
+            || e.target.value === data.languageInput.defautValue
+            || e.target.value === '')) {
             
-            setError({ input: e.target.name, value: 'Is required!'})
-            result = false;
-        }
-        if (e.target.value === '') {
-            setError({ input: e.target.name, value: 'Is required!'})
-            result = false;
-        }
-        if (e.target.type === 'number' && (e.target.value < 0 || e.target.value > new Date().getFullYear())) {
-            setError({ input: e.target.name, value: 'Year must be below current year!'})
-            result = false;
-        }
+            if (!error.find(x=>x.input === e.target.name)) {
+                
+                setError(prev => ([...prev, { input: e.target.name, value: 'is required!'}]))
+            }
 
-        return result;
+        }else if (e.target.type === 'number' && (e.target.value < 0 || e.target.value > new Date().getFullYear() || e.target.value === '')) {
+
+            if (!error.find(x=>x.input === e.target.name)) {
+                
+                setError(prev => ([...prev, { input: e.target.name, value: 'is required, must be between zero and current year!'}]))
+            }
+            
+
+        }else{
+            setError(prev => ([...(prev.filter(x=>x.input !== e.target.name))]))
+        }
+    }
+
+    const BookIsValid = (book) => {
+
+        let valid = true;
+
+        if (book.author.name === data.authorInput.defautValue) {
+            if (!error.find(x=>x.input === 'Author')) {
+                
+                setError(prev => ([...prev, { input: 'Author', value: 'is required!'}]))
+            }
+            valid = false;
+        }
+        if (book.author.name === data.authorInput.addAuthorValue) {
+            if (!error.find(x=>x.input === 'Author')) {
+                
+                setError(prev => ([...prev, { input: 'Author', value: 'create or choose'}]))
+            }
+            valid = false;
+        }
+        if (book.title === '') {
+            if (!error.find(x=>x.input === 'Book title')) {
+                
+                setError(prev => ([...prev, { input: 'Book title', value: 'is required!'}]))
+            }
+            valid = false;
+        }
+        if (book.genre === data.genreInput.defautValue) {
+            if (!error.find(x=>x.input === 'Genre')) {
+                
+                setError(prev => ([...prev, { input: 'Genre', value: 'is required!'}]))
+            }
+            valid = false;
+        }
+        if (book.language === data.languageInput.defautValue) {
+            if (!error.find(x=>x.input === 'Language')) {
+                
+                setError(prev => ([...prev, { input: 'Language', value: 'is required!'}]))
+            }
+            valid = false;
+        }
+        if (book.year === '' || book.year < 0 || book.year > new Date().getFullYear()) {
+            if (!error.find(x=>x.input === 'Publication year')) {
+                
+                setError(prev => ([...prev, { input: 'Publication year', value: 'is required, must be between zero and current year!'}]))
+            }
+            valid = false;
+        }
+        return valid;
     }
     
     const AddAdminComment = async (book, update) =>{
@@ -135,39 +188,41 @@ const CreateBook = ({history, match, update}) => {
             <form className='form' onSubmit={submitHandler}>
 
                 <div className='form-control'>
-                    <label htmlFor='author'>Author:</label>
+                    <label htmlFor='author'>Author: *</label>
                     <select 
                         className='form-input-book'  
                         id='author' 
-                        name='author'
+                        name='Author'
                         onChange={handleAuthorChange} 
+                        onBlur={ValidateInput}
                         value ={book?.author?.name}>
                             {authorsList.map(x => (<option key={x._id} className='form-option' value={x.name}>{x.name}</option>))}
                     </select>
                 </div>
 
                 <div className='form-control'>
-                    <label htmlFor='title'>Book title:</label>
-                    <input className='form-input-book' type="text" id='title' name='title' value ={book.title} placeholder='' onChange={changeValue}/>
+                    <label htmlFor='title'>Book title: *</label>
+                    <input className='form-input-book' type="text" id='title' name='Book title' placeholder='' 
+                            value ={book.title}  onChange={changeValue} onBlur={ValidateInput}/>
                 </div>
 
                 <div className='form-control'>
-                    <label htmlFor='genre'>Genre:</label>
-                    <select className='form-input-book' type="text" id='genre' name='genre' value ={book.genre} onChange={changeValue}>
+                    <label htmlFor='genre'>Genre: *</label>
+                    <select className='form-input-book' type="text" id='genre' name='Genre' value ={book.genre} onChange={changeValue} onBlur={ValidateInput}>
                         {genresList.map((x, index) => (<option key={index} className='form-option' value={x}>{x}</option>))}
                     </select>
                 </div>
 
                 <div className='form-control'>
-                    <label htmlFor='language'>Language:</label>
-                    <select className='form-input-book' type="text" id='language' name='language' value ={book.language} onChange={changeValue}>
+                    <label htmlFor='language'>Language: *</label>
+                    <select className='form-input-book' type="text" id='language' name='Language' value ={book.language} onChange={changeValue} onBlur={ValidateInput}>
                         {languagesList.map((x , index) => (<option key={index} className='form-option' value={x}>{x}</option>))}
                     </select>
                 </div>
 
                 <div className='form-control'>
-                    <label htmlFor='year'>Publication year:</label>
-                    <input className='form-input-book' type="number" id='year' name='year' value ={book?.year} placeholder='' onChange={changeValue}/>
+                    <label htmlFor='year'>Publication year: *</label>
+                    <input className='form-input-book' type="number" id='year' name='Publication year' value ={book?.year} placeholder='' onChange={changeValue} onBlur={ValidateInput}/>
                 </div>
 
                 <div className='form-control'>
@@ -179,10 +234,12 @@ const CreateBook = ({history, match, update}) => {
                     <label htmlFor='description'>Description:</label>
                     <textarea className='form-textarea-book' type="text" id='description' name='description' value ={book?.description} placeholder='' onChange={changeValue}/>
                 </div>
-
+                <span className='form-ps'> * is required</span>
                 <input type="submit" className='btn form-btn' value={update ? 'Edit Book Info' : 'Submit Book'}/>
 
-                {error ? <p>{`${error.input} - ${error.value}`}</p> : ''}
+                {error.length > 0 
+                    ? error.map(x=> <div key={x.input} className='form-error'><BiError className='form-error-icon'/>{`${x.input} - ${x.value}`}</div> )
+                    : ''}
             </form>
 
             {newAuthor && <CreateAuthorForm  createAuthor={createAuthor}/>}

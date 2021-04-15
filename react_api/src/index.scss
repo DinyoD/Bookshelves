@@ -149,6 +149,22 @@ body{
   .form-textarea-book{
     min-height: 80px;
   }
+  .form-ps{
+    margin-left: auto;
+  }
+  .form-error{
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+    padding-left: 20px;
+    color: $color-attention;
+    font-size: 18px;
+    font-weight: bold;
+    .form-error-icon{
+      font-size: 32px;
+      margin-right: 10px;
+    }
+  }
 }
 
 .books-container{
