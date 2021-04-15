@@ -100,18 +100,20 @@ const CreateBook = ({history, match, update}) => {
         if (e.target.type !== 'number' && (e.target.value === data.authorInput.defautValue 
             || e.target.value === data.genreInput.defautValue 
             || e.target.value === data.languageInput.defautValue
-            || e.target.value === '')) {
+            || e.target.value === ''
+            || e.target.value.trim() === '')) {
             
             if (!error.find(x=>x.input === e.target.name)) {
                 
                 setError(prev => ([...prev, { input: e.target.name, value: 'is required!'}]))
             }
 
-        }else if (e.target.type === 'number' && (e.target.value < 0 || e.target.value > new Date().getFullYear() || e.target.value === '')) {
+        }else if (e.target.type === 'number' && 
+                (e.target.value < 0 || e.target.value > new Date().getFullYear() || e.target.value === '' || !Number.isInteger(Number(e.target.value)))) {
 
             if (!error.find(x=>x.input === e.target.name)) {
                 
-                setError(prev => ([...prev, { input: e.target.name, value: 'is required, must be between zero and current year!'}]))
+                setError(prev => ([...prev, { input: e.target.name, value: 'is required and must be valid!'}]))
             }
             
 
@@ -137,8 +139,8 @@ const CreateBook = ({history, match, update}) => {
                 setError(prev => ([...prev, { input: 'Author', value: 'create or choose'}]))
             }
             valid = false;
-        }
-        if (book.title === '') {
+        } 
+        if (book.title === '' || book.title.trim() === '') {
             if (!error.find(x=>x.input === 'Book title')) {
                 
                 setError(prev => ([...prev, { input: 'Book title', value: 'is required!'}]))
@@ -159,10 +161,10 @@ const CreateBook = ({history, match, update}) => {
             }
             valid = false;
         }
-        if (book.year === '' || book.year < 0 || book.year > new Date().getFullYear()) {
+        if (book.year === '' || !Number.isInteger(Number(book.year))|| book.year < 0 || book.year > new Date().getFullYear()) {
             if (!error.find(x=>x.input === 'Publication year')) {
                 
-                setError(prev => ([...prev, { input: 'Publication year', value: 'is required, must be between zero and current year!'}]))
+                setError(prev => ([...prev, { input: 'Publication year', value: 'is required and must be valid!'}]))
             }
             valid = false;
         }

@@ -29,18 +29,18 @@ const CreateAuthorForm = ({createAuthor}) => {
     const ValidateInput = (e) => {
 
 
-        if (e.target.type !== 'number' && e.target.value === '') {
+        if (e.target.type !== 'number' && ( e.target.value === '' || e.target.value.trim() === '')) {
             
             if (!error.find(x=>x.input === e.target.name)) {
                 
                 setError(prev => ([...prev, { input: e.target.name, value: 'is required!'}]))
             }
 
-        }else if (e.target.type === 'number' && (e.target.value > maxAuthorYearOfBirth || e.target.value === '')) {
+        }else if (e.target.type === 'number' && (e.target.value > maxAuthorYearOfBirth || e.target.value === '' || !Number.isInteger(Number(e.target.value)))) {
 
             if (!error.find(x=>x.input === e.target.name)) {
                 
-                setError(prev => ([...prev, { input: e.target.name, value: `is required, must be before ${maxAuthorYearOfBirth}.`}]))
+                setError(prev => ([...prev, { input: e.target.name, value: `is required, must be valid and before ${maxAuthorYearOfBirth}.`}]))
             }
             
 
@@ -53,17 +53,17 @@ const CreateAuthorForm = ({createAuthor}) => {
 
         let valid = true;
 
-        if (author.name || author.name.length < 2) {
+        if (author.name.trim() ===''|| author.name.length < 2) {
             if (!error.find(x=>x.input === 'Author name')) {
                 
                 setError(prev => ([...prev, { input: 'Author name', value: 'is required and must be 2 symbols at least!'}]))
             }
             valid = false;
         }
-        if (author.yearOfBirth === '' || author.yearOfBirth > maxAuthorYearOfBirth) {
+        if ( !Number.isInteger(Number(author.yearOfBirth)) || author.yearOfBirth === '' || author.yearOfBirth > maxAuthorYearOfBirth) {
             if (!error.find(x=>x.input === 'Year of Birth')) {
                 
-                setError(prev => ([...prev, { input: 'Year of Birth', value: `is required, must be before ${maxAuthorYearOfBirth}.`}]))
+                setError(prev => ([...prev, { input: 'Year of Birth', value: `is required, must be valid and before ${maxAuthorYearOfBirth}.`}]))
             }
             valid = false;
         }
