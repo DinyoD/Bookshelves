@@ -240,7 +240,7 @@ const CreateBook = ({history, match, update}) => {
                     <label htmlFor='description'>Description:</label>
                     <textarea className='form-textarea-book' type="text" id='description' name='description' value ={book?.description} placeholder='' onChange={changeValue}/>
                 </div>
-                <span className='form-ps'> * is required</span>
+                <span className='form-ps'> * required field</span>
                 <input type="submit" className='btn form-btn' value={update ? 'Edit Book Info' : 'Submit Book'}/>
                 
             </form>
