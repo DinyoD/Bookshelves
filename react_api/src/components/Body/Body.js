@@ -40,6 +40,8 @@ function Body({loginUser}){
 
                 <Route path='/comments/user' component={UserComments} />
 
+                <Route render={(props) => <NoContent {...props}/>} />
+
             </Switch>
 
         </div>

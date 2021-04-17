@@ -4,6 +4,8 @@ import { useHistory } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Body from './components/Body/Body';
 import Footer from './components/Footer/Footer';
+import AppErrorBoundary from './components/AppErrorBoundery/AppErrorBoundory';
+
 import UserContext from './components/Contexts/UserContext';
 
 import userService from './services/usersService';
@@ -25,10 +27,18 @@ function App() {
   },[isLogin])
 
   const  loginUser = (newUser) => {
-    localStorage.setItem('username', newUser.username)
-    localStorage.setItem('id', newUser._id);
+    if (newUser._id !== undefined)  {
+      
+      localStorage.setItem('username', newUser.username)
+      localStorage.setItem('id', newUser._id);
+  
+      setIsLogin(true);
+      history.push('/books');
+    }else{
+      localStorage.removeItem('username');
+      localStorage.removeItem('id');
 
-    setIsLogin(true);
+    }
   }
 
   const logoutUser = () => {
@@ -43,9 +53,15 @@ function App() {
   return (
     <div className="container">
         <UserContext.Provider value={[user, setUser]}>
-          <Header  logoutUser={logoutUser}/>       
-          <Body  loginUser={loginUser} />
+
+          <Header  logoutUser={logoutUser}/>     
+            
+          <AppErrorBoundary>
+            <Body  loginUser={loginUser} />
+          </AppErrorBoundary>
+
           <Footer />
+
         </UserContext.Provider>
     </div>
   );

@@ -400,6 +400,12 @@ body{
   color: $color_alert;
   text-align: center;
 }
+.no-content-container{
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  justify-content: space-around
+}
 .edit-comment-container{
    display: flex;
    flex-direction: column;

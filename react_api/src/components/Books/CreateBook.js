@@ -189,6 +189,10 @@ const CreateBook = ({history, match, update}) => {
         <div className='form-container'>
             <form className='form' onSubmit={submitHandler}>
 
+                {error.length > 0 
+                        ? error.map(x=> <div key={x.input} className='form-error'><BiError className='form-error-icon'/>{`${x.input} - ${x.value}`}</div> )
+                        : ''}
+
                 <div className='form-control'>
                     <label htmlFor='author'>Author: *</label>
                     <select 
@@ -238,10 +242,7 @@ const CreateBook = ({history, match, update}) => {
                 </div>
                 <span className='form-ps'> * is required</span>
                 <input type="submit" className='btn form-btn' value={update ? 'Edit Book Info' : 'Submit Book'}/>
-
-                {error.length > 0 
-                    ? error.map(x=> <div key={x.input} className='form-error'><BiError className='form-error-icon'/>{`${x.input} - ${x.value}`}</div> )
-                    : ''}
+                
             </form>
 
             {newAuthor && <CreateAuthorForm  createAuthor={createAuthor}/>}

@@ -1,11 +1,18 @@
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { BiError } from 'react-icons/bi';
+
 import authService from '../../services/authService';
 
 const Login = ({ loginUser }) => {
 
-    const history  = useHistory(); 
+    const [error, setError] = useState(null);
+    const history  = useHistory();
+
+
     const  submitHandler = (e) => {
         e.preventDefault();
+        
         let user = {
             email: e.target.email.value,
             password: e.target.password.value,
@@ -15,10 +22,15 @@ const Login = ({ loginUser }) => {
         
         authService.login(user)
         .then((logedUser) => {
-            loginUser(logedUser);
-            history.push('/books')
+            if (logedUser.message) {
+                setError(logedUser.message.error)
+            }else{
+                setError(null)
+                loginUser(logedUser);
+            }
+            // history.push('/books')
         })
-        .catch();
+        .catch((err) => setError('Sorry, something went wrong there. Please, try again...'));
 
         e.target.email.value ='';
         e.target.password.value ='';
@@ -29,7 +41,10 @@ const Login = ({ loginUser }) => {
     return (
         <div className='form-container'>
             <form className='form form-register' onSubmit={submitHandler}>
-                {/* <div>{error.error ? error.error : ''}</div> */}
+                {error 
+                  ? <div className='form-error'><BiError className='form-error-icon'/>{error}</div>
+                  : ''}
+                  <br />
                 <div className='form-control'>
                     <label htmlFor='email'>Email:</label>
                     <input className='form-input' type="text" id='email' name='email' placeholder='enter your email...'/>

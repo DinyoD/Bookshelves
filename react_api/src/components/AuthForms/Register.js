@@ -1,11 +1,17 @@
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { BiError } from 'react-icons/bi';
+
 import authService from '../../services/authService';
 
 const Register = ({loginUser}) => {
 
+    const [error, setError] = useState(null);
     const history  = useHistory(); 
+
     const  submitHandler = (e) => {
         e.preventDefault();
+
         let user = {
             username: e.target.username.value,
             email: e.target.email.value,
@@ -17,13 +23,16 @@ const Register = ({loginUser}) => {
        //TODO validate user
         
         authService.register(user)
-        .then((newUser) => {
-            localStorage.setItem('username', newUser.username)
-            localStorage.setItem('id', newUser._id)
-            loginUser(newUser);
-            history.push('/books');
+        .then((logedUser) => {
+            if (logedUser.message) {
+                setError(logedUser.message.error)
+            }else{
+                setError(null)
+                loginUser(logedUser);
+            }
+            // history.push('/books')
         })
-        .catch();
+        .catch((err) => setError('Sorry, something went wrong there. Please, try again...'));
 
         e.target.username.value ='';
         e.target.email.value ='';
@@ -36,7 +45,12 @@ const Register = ({loginUser}) => {
     return (
         <div className='form-container'>
             <form className='form form-register' onSubmit={submitHandler}>
-                {/* <div>{error.error ? error.error : ''}</div> */}
+
+                {error 
+                  ? <div className='form-error'><BiError className='form-error-icon'/>{error}</div>
+                  : ''}
+                  <br />
+
                 <div className='form-control'>
                     <label htmlFor='username'>Name:</label>
                     <input className='form-input' type="text" id='username' name='username' placeholder='Choose a name...'/>

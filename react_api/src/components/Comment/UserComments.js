@@ -16,8 +16,10 @@ const UserComments = () => {
     const [commentForEdit, setCommentForEdit] = useState({});
 
     useEffect(() => {
-
-        setComments(user.comments)
+        if (user) {
+            
+            setComments(user.comments)
+        }
     },[user]);
 
 
@@ -28,23 +30,36 @@ const UserComments = () => {
             setUser(prev => ({...prev, comments:[...prev.comments.filter(x => x._id !== id)]}))
         })
     }
-    const EditComment = (comment) => {
+    const EditComment = (id) => {
         setEditing(true);
-        setCommentForEdit(comment);
+        let currComment = comments.find(x=>x._id === id);
+        if (currComment) {
+            
+            setCommentForEdit(currComment);
+        }
     }
 
     const ChangeTextHandler =(e) => {
-        setCommentForEdit(prev => ({...prev, text: e.target.value }))
+        if (e.target.value !== '' && e.target.value.trim() !== '') {
+            
+            setCommentForEdit(prev => ({...prev, text: `${e.target.value} (edited)` }))
+        }
     }
 
     const CancelEditingHandler = () => {
         setEditing(false)
     } 
 
-    const EditHandler = (e) => {
+    const SubmitEditHandler = () => {
 
-
-        setEditing(false)
+        commentsServise.edit(commentForEdit._id, commentForEdit)
+        .then( c => {
+            console.log(c);
+            setUser(prev => ({...prev, comments: [...prev.comments.filter(x=>x._id !== commentForEdit._id), c]}))
+            setComments(prev => ([...prev.filter(x=>x._id !== commentForEdit._id), c]));
+            setCommentForEdit({});
+            setEditing(false);
+        })
     } 
  
 
@@ -55,7 +70,7 @@ const UserComments = () => {
                     <textarea className='edit-comment' name='text' onChange={ChangeTextHandler}>{commentForEdit.text}</textarea>
                     <div className='edit-comment-btns'>
                         <Button color='darkred' text='Cancel' click={CancelEditingHandler}/>
-                        <Button  color='olivedrab' text='Save' click={EditHandler}/>
+                        <Button  color='olivedrab' text='Save' click={SubmitEditHandler}/>
                     </div>
                 </div>
             ) : ''}
@@ -64,7 +79,7 @@ const UserComments = () => {
                     comments={comments} 
                     user={true} 
                     clickDel={(id) => DeleteComment(id)} 
-                    clickEdit={(comment) => EditComment(comment)}
+                    clickEdit={(id) => EditComment(id)}
 
                 />)
                 : <NoContent text='No Comments!'/>

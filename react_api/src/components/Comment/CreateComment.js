@@ -13,19 +13,23 @@ const CreateComment = ({book, addComment}) => {
     const submitCommentHadler = async(e) => {
         e.preventDefault();
 
-        let comment ={
-            user: user.username,
-            bookInfo: `${book.title} (${book.author.name})`,
-            text:  e.target.comment.value
+        if (e.target.comment.value !== '' && e.target.comment.value.trim() !== '') {
+            
+            let comment ={
+                user: user.username,
+                bookInfo: `${book.title} (${book.author.name})`,
+                text:  e.target.comment.value
+            }
+    
+    
+            let createdComment = await commentsService.create(comment);
+            await booksService.addComment(book, createdComment);
+            await userService.addComment(user, createdComment)
+            setUser(prev => ({...prev, comments: [...prev.comments, createdComment]}))
+            e.target.comment.value= '';
+            addComment(createdComment)
         }
 
-        let createdComment = await commentsService.create(comment);
-        await booksService.addComment(book, createdComment);
-        await userService.addComment(user, createdComment)
-        setUser(prev => ({...prev, comments: [...prev.comments, createdComment]}))
-        e.target.comment.value= '';
-        // history.push(`/books/${book._id}/comments`);
-        addComment(createdComment)
     }
 
    return (

@@ -8,7 +8,7 @@ const CommentCard = ({comment, book, user, clickDel, clickEdit}) => {
             <span className="comment-card-name">{user ? `${comment.bookInfo} - ` : ''}{comment.date} {book ? `- ${comment.user}` : ``}</span>
             {user ? (<div>
                         <AiOutlineDelete className='comment-card-btn del' onClick={()=>clickDel(comment._id)}/>
-                        <AiOutlineEdit className='comment-card-btn edit' onClick={() => clickEdit(comment)}/>
+                        <AiOutlineEdit className='comment-card-btn edit' onClick={() => clickEdit(comment._id)}/>
                     </div>) : ''}
         </blockquote>
     )

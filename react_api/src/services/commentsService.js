@@ -21,6 +21,26 @@ const commentsServise =  {
             console.log(error);
         }
     },
+    edit:  async(id, comment) =>  {
+        try {
+            let url = serverUrl + '/' +id
+            const res = await fetch(
+                url,
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'                       
+                    },
+                    body: JSON.stringify(comment)
+                }
+            )
+    
+            return await res.json();
+            
+        } catch (error) {
+            console.log(error);
+        }
+    },
     delete: async(id) => {
         try {
             let url = serverUrl + '/' +id
