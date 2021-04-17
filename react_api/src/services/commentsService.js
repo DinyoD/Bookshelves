@@ -18,7 +18,7 @@ const commentsServise =  {
             return await res.json();
             
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     },
     edit:  async(id, comment) =>  {
@@ -38,7 +38,7 @@ const commentsServise =  {
             return await res.json();
             
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     },
     delete: async(id) => {
@@ -57,7 +57,7 @@ const commentsServise =  {
             return await res.json();
             
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     }
 }

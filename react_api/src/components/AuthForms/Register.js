@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { BiError } from 'react-icons/bi';
 
 import authService from '../../services/authService';
@@ -7,7 +6,6 @@ import authService from '../../services/authService';
 const Register = ({loginUser}) => {
 
     const [error, setError] = useState([]);
-    const history  = useHistory(); 
 
     const  submitHandler = (e) => {
         e.preventDefault();
@@ -20,7 +18,7 @@ const Register = ({loginUser}) => {
         };
 
 
-       if(ValidUserInputs(user)){
+       if(validUserInputs(user)){
 
            authService.register(user)
            .then((logedUser) => {
@@ -44,7 +42,7 @@ const Register = ({loginUser}) => {
        }        
     }
 
-    const ValidUserInputs = (user) =>{
+    const validUserInputs = (user) =>{
         let result = true;
         if (user.username === '' || user.username.trim() === '') {
             if (!error.find(x=> x === 'Username is required')) {
@@ -77,7 +75,6 @@ const Register = ({loginUser}) => {
         }
         return result;
     }
-
 
     return (
         <div className='form-container'>

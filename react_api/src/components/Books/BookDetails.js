@@ -1,27 +1,33 @@
 import { useState, useEffect, useContext} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect,useHistory } from 'react-router-dom';
 import { FaRegCheckCircle} from 'react-icons/fa';
 
 import CreateComment from '../Comment/CreateComment';
 import Comments from '../Comment/Comments';
+import UserContext from '../Contexts/UserContext';
 
 import booksService from '../../services/booksService';
 import usersService from '../../services/usersService';
-import UserContext from '../Contexts/UserContext';
 
 const BookDetails = ({match}) => {
 
     const [user, setUser] = useContext(UserContext);
-
     const [book, setBook ] = useState({});
     const [owned, setOwned] = useState(false);
     const [wished, setWished] = useState(false);
     const [hasComments, setHasComments] = useState(false);
 
+    const history = useHistory()
+
     useEffect(()=> {
         booksService.getOne(match.params.id)
             .then( b =>{ 
-                setBook(b);
+                if (!b.message) {       
+                    console.log(b);            
+                    setBook(b);
+                }else{
+                    history.push('/no-content')
+                }
             })
     },[]);
 
@@ -32,18 +38,23 @@ const BookDetails = ({match}) => {
     }, [book])
 
     const AddToOwned = async () => {
-        let updatedOwnedBooksUser = await  usersService.addBookToOwnedList(book, user);
-        setOwned(true);
-        if (wished) {
-            await usersService.removeBookFromWishedList(book, updatedOwnedBooksUser);
-            setWished(false);
-            setUser(prev => ({
-                ...prev,
-                ownedBooks: [...prev.ownedBooks, book],
-                wishList: [...prev.wishList.filter(x=>x._id !== book._id)]
-            }) );
-        }else{
-            setUser(prev => ({...prev, ownedBooks: [...prev.ownedBooks, book]}));
+        try {
+            let updatedOwnedBooksUser = await  usersService.addBookToOwnedList(book, user);
+            setOwned(true);
+            if (wished) {
+                await usersService.removeBookFromWishedList(book, updatedOwnedBooksUser);
+                setWished(false);
+                setUser(prev => ({
+                    ...prev,
+                    ownedBooks: [...prev.ownedBooks, book],
+                    wishList: [...prev.wishList.filter(x=>x._id !== book._id)]
+                }) );
+                
+            }else{
+                setUser(prev => ({...prev, ownedBooks: [...prev.ownedBooks, book]}));
+            }
+        } catch (error) {               
+            
         }
     }
 
@@ -52,10 +63,11 @@ const BookDetails = ({match}) => {
             .then(() => {
                 setWished(true);
                 setUser(prevUser => ({...prevUser, wishList: [...prevUser.wishList, book]}));
-            })  
+            })
+
     }
 
-    const RemoveFromOwned = () => {
+    const removeFromOwned = () => {
         usersService.removeBookFromOwnedList(book, user)
             .then(() => {
                 setOwned(false);
@@ -63,7 +75,7 @@ const BookDetails = ({match}) => {
             })
     }
 
-    const RemoveFromWished = () => {
+    const removeFromWished = () => {
         usersService.removeBookFromWishedList(book, user)
             .then(() => {
                 setWished(false);
@@ -89,10 +101,10 @@ const BookDetails = ({match}) => {
                 <div className="book-details-actions">                  
                     {/* <Link className='action-link' to='#'>Readed</Link> */}
                     { owned 
-                        ?  <button className='action-link remove' to='#' onClick={RemoveFromOwned}>Remove from My Books</button>
+                        ?  <button className='action-link remove' to='#' onClick={removeFromOwned}>Remove from My Books</button>
                         :  <button className='action-link' to='#' onClick={AddToOwned}>Add to My Books</button>}
                     {wished && !owned
-                        ? <button className='action-link remove' to='#' onClick={RemoveFromWished}>Remove from Wish list</button>
+                        ? <button className='action-link remove' to='#' onClick={removeFromWished}>Remove from Wish list</button>
                         : ''}
                     {!wished && !owned
                         ? <button className='action-link' to='#' onClick={AddToWished}>Add to Wish list</button>

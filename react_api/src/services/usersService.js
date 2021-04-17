@@ -19,7 +19,7 @@ const userService = {
             return await res.json();
             
         } catch (error) {
-            console.log(error);
+            throw error;
         }
 
     },
@@ -43,7 +43,7 @@ const userService = {
             return await res.json();
             
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     },
 
@@ -66,7 +66,7 @@ const userService = {
             return await res.json();
             
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     },
 
@@ -87,7 +87,7 @@ const userService = {
             return await res.json();
              
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     },
 
@@ -109,7 +109,7 @@ const userService = {
             return await res.json();
             
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     },
 
@@ -131,7 +131,7 @@ const userService = {
             return await res.json();
             
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     }
 

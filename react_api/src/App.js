@@ -1,5 +1,5 @@
 import React, {useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 
 import Header from './components/Header/Header';
 import Body from './components/Body/Body';
@@ -22,6 +22,9 @@ function App() {
       .then(u => {
         console.log(u);
         setUser(u)
+      })
+      .catch(() => {
+        return <Redirect to='/no-content'/>
       })
     }
   },[isLogin])

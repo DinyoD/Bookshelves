@@ -11,8 +11,6 @@ import UserComments from '../Comment/UserComments';
 
 import UserContext from '../Contexts/UserContext';
 
-//TODO SWitch
-
 function Body({loginUser}){
 
     const [user] = useContext(UserContext);
@@ -28,7 +26,7 @@ function Body({loginUser}){
     
                 <Route path='/login'  render={(props) => <Login {...props} loginUser={loginUser}/>}/>
 
-                <Route path='/no-content'  render={(props) => <NoContent {...props} text='No Content!'/>} />
+                <Route path='/no-content'  render={(props) => <NoContent {...props} />} />
 
 
                 { user

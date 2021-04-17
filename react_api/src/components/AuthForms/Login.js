@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { BiError } from 'react-icons/bi';
 
 import authService from '../../services/authService';
@@ -7,8 +6,6 @@ import authService from '../../services/authService';
 const Login = ({ loginUser }) => {
 
     const [error, setError] = useState(null);
-    const history  = useHistory();
-
 
     const  submitHandler = (e) => {
         e.preventDefault();
@@ -17,8 +14,6 @@ const Login = ({ loginUser }) => {
             email: e.target.email.value,
             password: e.target.password.value,
         };
-
-        //TODO validate user
         
         authService.login(user)
         .then((logedUser) => {
@@ -28,7 +23,6 @@ const Login = ({ loginUser }) => {
                 setError(null)
                 loginUser(logedUser);
             }
-            // history.push('/books')
         })
         .catch((err) => setError('Sorry, something went wrong there. Please, try again...'));
 

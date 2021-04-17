@@ -1,6 +1,4 @@
 const BookCard = ({id, title, coverUrl, author, genre, year, clicked}) => {
-
-
     return (
         <div className='book-container' onClick={() => clicked(id)}>
             <div className='book-cover'>

@@ -8,7 +8,7 @@ const CreateAuthorForm = ({createAuthor}) => {
     const [error, setError] = useState([]);
     const maxAuthorYearOfBirth = (new Date().getFullYear() - 10);
 
-    const submitHandler = async(e)=> {
+    const submitFormHandler = async(e)=> {
         e.preventDefault();
 
         let author = {
@@ -17,16 +17,21 @@ const CreateAuthorForm = ({createAuthor}) => {
             yearOfBirth: e.target.yearOfBirth.value
         }
 
-        if (AuthorIsValid(author)) {
-            
-            let createdAuthor = await authorsService.create(author);
-    
-            createAuthor(createdAuthor);
+        if (error.find(x=>x.input === 'Server')) {            
+            setError(prev => ([...prev.filter(x=>x.input !== 'Server')]))
         }
 
+        if (authorIsValid(author)) {
+            try {
+                let createdAuthor = await authorsService.create(author);        
+                createAuthor(createdAuthor);
+            } catch (err) {
+                setError(prev => ([...prev, { input: 'Server', value: 'Sorry, something went wrong there. Please, try again...'}]))
+            }            
+        }
     }
 
-    const ValidateInput = (e) => {
+    const validateInput = (e) => {
 
 
         if (e.target.type !== 'number' && ( e.target.value === '' || e.target.value.trim() === '')) {
@@ -49,7 +54,7 @@ const CreateAuthorForm = ({createAuthor}) => {
         }
     }
 
-    const AuthorIsValid = (author) => {
+    const authorIsValid = (author) => {
 
         let valid = true;
 
@@ -71,17 +76,16 @@ const CreateAuthorForm = ({createAuthor}) => {
     }
 
     return(
-
-        <form className='form' onSubmit={submitHandler}>
+        <form className='form' onSubmit={submitFormHandler}>
             <h2 className="form-control">Create New Book's Author:</h2>
             <div className="form-control">
                 <label htmlFor="name">Author name: *</label>
-                <input className='form-input-book' type="text" id='name' name='Author name' onBlur={ValidateInput}/>
+                <input className='form-input-book' type="text" id='name' name='Author name' onBlur={validateInput}/>
             </div>
 
             <div className="form-control">
                 <label htmlFor="yearOfBirth">Author's year of Birth: *</label>
-                <input className='form-input-book' type="number" id='yearOfBirth' name='Year of Birth' onBlur={ValidateInput}/>
+                <input className='form-input-book' type="number" id='yearOfBirth' name='Year of Birth' onBlur={validateInput}/>
             </div>
 
             <div className="form-control">
@@ -94,7 +98,6 @@ const CreateAuthorForm = ({createAuthor}) => {
                     ? error.map(x=> <div key={x.input} className='form-error'><BiError className='form-error-icon'/>{`${x.input} - ${x.value}`}</div> )
                     : ''}
         </form>
-
     )
 }
 

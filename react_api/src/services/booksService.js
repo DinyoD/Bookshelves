@@ -3,49 +3,59 @@ const serverUrl = 'http://localhost:5000/api/v1/books';
 const bookService = {
     
     getAll: async() => {
-
-        const res = await fetch(
-            serverUrl,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'                       
+        try {
+            const res = await fetch(
+                serverUrl,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'                       
+                    }
                 }
-            }
-        )
+            )   
+            return await res.json();           
+        } catch (error) {
+            throw error;
+        }
 
-        return await res.json();
     },
 
     create: async(book) => {
-        const res = await fetch(
-            serverUrl,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'                       
-                },
-                body: JSON.stringify(book)
-            }
-        )
-
-        return await res.json();
+        try {
+            const res = await fetch(
+                serverUrl,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'                       
+                    },
+                    body: JSON.stringify(book)
+                }
+            )
+    
+            return await res.json();
+            
+        } catch (error) {
+            throw error;
+        }
     },
 
     getOne: async(id) => {
-
-        let currentUrl = serverUrl +"/"+id;
-        const res = await fetch(
-            currentUrl,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'                       
+        try {           
+            let currentUrl = serverUrl +"/"+id;
+            const res = await fetch(
+                currentUrl,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'                       
+                    }
                 }
-            }
-        )
-
-        return await res.json();
+            )    
+            return await res.json();
+        } catch (error) {
+            throw error;
+        }
     },
 
     addComment: async(book, comment) => {
@@ -67,7 +77,7 @@ const bookService = {
             return b
             
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     },
 
@@ -90,7 +100,7 @@ const bookService = {
             return b
             
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     }
 }

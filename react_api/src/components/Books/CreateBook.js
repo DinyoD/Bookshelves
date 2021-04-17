@@ -11,14 +11,11 @@ import data from '../../data/data';
 
 const CreateBook = ({history, match, update}) => {
 
-    const [newAuthor, setNewAuthor] = useState(false);   
-    
+    const [newAuthor, setNewAuthor] = useState(false);       
     const [authorsList, setAuthorsList] = useState([]);
     const [genresList, setGenresList] = useState([]);
     const [languagesList, setLanguagesList] = useState([]);
-
     const [error, setError] = useState([]);
-
     const [book, setBook] = useState({
         title: '',
         author: { name: data.authorInput.defautValue},
@@ -45,19 +42,23 @@ const CreateBook = ({history, match, update}) => {
         }
     },[])
 
-    const submitHandler = async(e) => {
+    const submitFormHandler = async(e) => {
 
         e.preventDefault();
 
-        if (BookIsValid(book)) {
+        if (error.find(x=>x.input === 'Server')) {                
+            setError(prev => ([...prev.filter(x=>x.input !== 'Server')]))
+        }
+
+        if (bookIsValid(book)) {
+            try {
+                let newBook = await addAdminComment(book, update)   
+                let createdBook = update ? await booksService.edit(newBook) : await booksService.create(newBook);               
+                history.push(`/books/details/${createdBook._id}`)                
+            } catch (err) {
+                setError(prev => ([...prev, { input: 'Server', value: 'Sorry, something went wrong there. Please, try again...'}]))
+            }
             
-            let newBook = await AddAdminComment(book, update)
-    
-            console.log(newBook);
-            
-            let createdBook = update ? await booksService.edit(newBook) : await booksService.create(newBook)
-            
-            history.push(`/books/details/${createdBook._id}`)
         }
 
     }
@@ -89,6 +90,11 @@ const CreateBook = ({history, match, update}) => {
     }
 
     const changeValue = (e) => {
+
+        if (error.find(x=>x.input === 'Server')) {
+                
+            setError(prev => ([...prev.filter(x=>x.input !== 'Server')]))
+        }
         
         setBook(b => ({
             ...b,
@@ -96,7 +102,7 @@ const CreateBook = ({history, match, update}) => {
         }));
     }
 
-    const ValidateInput = (e) => {
+    const validateInput = (e) => {
         if (e.target.type !== 'number' && (e.target.value === data.authorInput.defautValue 
             || e.target.value === data.genreInput.defautValue 
             || e.target.value === data.languageInput.defautValue
@@ -122,7 +128,7 @@ const CreateBook = ({history, match, update}) => {
         }
     }
 
-    const BookIsValid = (book) => {
+    const bookIsValid = (book) => {
 
         let valid = true;
 
@@ -171,7 +177,7 @@ const CreateBook = ({history, match, update}) => {
         return valid;
     }
     
-    const AddAdminComment = async (book, update) =>{
+    const addAdminComment = async (book, update) =>{
 
         let currenUser = localStorage.username;
 
@@ -187,12 +193,12 @@ const CreateBook = ({history, match, update}) => {
 
     return (
         <div className='form-container'>
-            <form className='form' onSubmit={submitHandler}>
+            <form className='form' onSubmit={submitFormHandler}>
 
                 {error.length > 0 
                         ? error.map(x=> <div key={x.input} className='form-error'><BiError className='form-error-icon'/>{`${x.input} - ${x.value}`}</div> )
                         : ''}
-
+                <br />
                 <div className='form-control'>
                     <label htmlFor='author'>Author: *</label>
                     <select 
@@ -200,7 +206,7 @@ const CreateBook = ({history, match, update}) => {
                         id='author' 
                         name='Author'
                         onChange={handleAuthorChange} 
-                        onBlur={ValidateInput}
+                        onBlur={validateInput}
                         value ={book?.author?.name}>
                             {authorsList.map(x => (<option key={x._id} className='form-option' value={x.name}>{x.name}</option>))}
                     </select>
@@ -209,26 +215,26 @@ const CreateBook = ({history, match, update}) => {
                 <div className='form-control'>
                     <label htmlFor='title'>Book title: *</label>
                     <input className='form-input-book' type="text" id='title' name='Book title' placeholder='' 
-                            value ={book.title}  onChange={changeValue} onBlur={ValidateInput}/>
+                            value ={book.title}  onChange={changeValue} onBlur={validateInput}/>
                 </div>
 
                 <div className='form-control'>
                     <label htmlFor='genre'>Genre: *</label>
-                    <select className='form-input-book' type="text" id='genre' name='Genre' value ={book.genre} onChange={changeValue} onBlur={ValidateInput}>
+                    <select className='form-input-book' type="text" id='genre' name='Genre' value ={book.genre} onChange={changeValue} onBlur={validateInput}>
                         {genresList.map((x, index) => (<option key={index} className='form-option' value={x}>{x}</option>))}
                     </select>
                 </div>
 
                 <div className='form-control'>
                     <label htmlFor='language'>Language: *</label>
-                    <select className='form-input-book' type="text" id='language' name='Language' value ={book.language} onChange={changeValue} onBlur={ValidateInput}>
+                    <select className='form-input-book' type="text" id='language' name='Language' value ={book.language} onChange={changeValue} onBlur={validateInput}>
                         {languagesList.map((x , index) => (<option key={index} className='form-option' value={x}>{x}</option>))}
                     </select>
                 </div>
 
                 <div className='form-control'>
                     <label htmlFor='year'>Publication year: *</label>
-                    <input className='form-input-book' type="number" id='year' name='Publication year' value ={book?.year} placeholder='' onChange={changeValue} onBlur={ValidateInput}/>
+                    <input className='form-input-book' type="number" id='year' name='Publication year' value ={book?.year} placeholder='' onChange={changeValue} onBlur={validateInput}/>
                 </div>
 
                 <div className='form-control'>
@@ -249,6 +255,5 @@ const CreateBook = ({history, match, update}) => {
         </div>
     )
 }
-
 
 export default CreateBook;
